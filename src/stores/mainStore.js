@@ -6,12 +6,21 @@ class MainStore {
     @action.bound
     logIn() {
         this.isLoggedIn = true;
-        console.log(this.isLoggedIn)
+        this.currentSite = 'household'
+        //console.log(this.isLoggedIn)
     }
 
     @action.bound
     logOut() {
         this.isLoggedIn = false;
+    }
+
+
+    @observable currentSite = 'login';
+
+    @action.bound
+    changeCurrentSite(sitename) {
+        this.currentSite = sitename;
     }
 }
 
