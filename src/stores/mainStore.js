@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 import { observable, action } from 'mobx';
 import { userSchema } from '../models/userModel';
+import { productSchema } from "../models/productModel";
 
 class MainStore {
     @observable isLoggedIn = false;
@@ -16,8 +17,13 @@ class MainStore {
     @observable registerEmail = undefined;
     @observable registerPassword1 = undefined;
     @observable registerPassword2 = undefined;
+    @observable productName = undefined;
+    @observable productMenge = undefined;
+    @observable productEinheit = undefined;
+    @observable productLagerort = undefined;
+    @observable productMHD = undefined;
     @observable userModel = undefined;
-
+    
     constructor() {
         // this.initialize()
     }
@@ -70,6 +76,27 @@ class MainStore {
         this.registerPassword2 = value
     }
 
+    @action.bound
+    updateRegisterProductName(value) {
+        this.productName = value
+    }
+    
+    @action.bound
+    updateRegisterProductMenge(value) {
+        this.productMenge = value
+    }
+    @action.bound
+    updateRegisterProductEinheit(value) {
+        this.productEinheit = value
+    }
+    @action.bound
+    updateRegisterProductMHD(value) {
+        this.productMHD = value
+    }
+    @action.bound
+    updateRegisterProductLagerort(value) {
+        this.productLagerort = value
+    }
 
     @action.bound
     async saveUser() {

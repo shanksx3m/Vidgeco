@@ -4,6 +4,33 @@ import { observer, inject } from 'mobx-react';
 @inject('mainStore')
 @observer
 class NewProduct extends React.Component {
+    onProductNameInput() {
+        const { updateRegisterProductName } = this.props.mainStore;
+        const { value } = document.getElementById("productName")
+        updateRegisterProductName(value)
+    }
+    onProductMengeInput() {
+        const { updateRegisterProductMenge } = this.props.mainStore;
+        const { value } = document.getElementById("productMenge")
+        updateRegisterProductMenge(value)
+    }
+    onProductEinheitInput() {
+        const { updateRegisterProductEinheit } = this.props.mainStore;
+        const { value } = document.getElementById("productEinheit")
+        updateRegisterProductEinheit(value)
+    }
+    onProductMHDInput() {
+        const { updateRegisterProductMHD } = this.props.mainStore;
+        const { value } = document.getElementById("productMHD")
+        updateRegisterProductMHD(value)
+    }
+    onProductLagerortInput() {
+        const { updateRegisterProductLagerort } = this.props.mainStore;
+        const { value } = document.getElementById("productLagerort")
+        updateRegisterProductLagerort(value)
+    }
+
+
     render() {
         const { saveProduct } = this.props.mainStore;
         return (
@@ -13,15 +40,15 @@ class NewProduct extends React.Component {
                     <div className="col-sm">
                         <div className="form-group">
                             <label for="productName">Produktname</label>
-                            <input type="text" className="form-control" id="productName" placeholder="z.B. Brokkoli" />
+                            <input onChange={this.onProductNameInput.bind(this)} type="text" className="form-control" id="productName" placeholder="z.B. Brokkoli" />
                         </div>
                         <div className="form-group">
                             <label for="productMenge">Menge</label>
-                            <input type="text" className="form-control" id="productMenge" placeholder="z.B. 15" />
+                            <input onChange={this.onProductMengeInput.bind(this)} type="text" className="form-control" id="productMenge" placeholder="z.B. 15" />
                         </div>
                         <div className="form-group">
-                            <label for="produktEinheit">Example select</label>
-                            <select className="form-control" id="produktEinheit">
+                            <label for="productEinheit">Example select</label>
+                            <select onChange={this.onProductEinheitInput.bind(this)} className="form-control" id="productEinheit">
                                 <option>Stück</option>
                                 <option>KG</option>
                                 <option>Liter</option>
@@ -29,11 +56,11 @@ class NewProduct extends React.Component {
                         </div>
                         <div className="form-group">
                             <label for="productMHD">Mindesthaltbarkeitsdatum</label>
-                            <input type="text" className="form-control" id="productMHD" placeholder="z.B. 20.01.2020" />
+                            <input onChange={this.onProductMHDInput.bind(this)} type="text" className="form-control" id="productMHD" placeholder="z.B. 20.01.2020" />
                         </div>
                         <div className="form-group">
                             <label for="productLagerort">Lagerort</label>
-                            <input type="text" className="form-control" id="productLagerort" placeholder="z.B. Kühlschrank" />
+                            <input onChange={this.onProductLagerortInput.bind(this)} type="text" className="form-control" id="productLagerort" placeholder="z.B. Kühlschrank" />
                         </div>
                         <button type="submit" className="btn btn-primary" onClick={saveProduct}>speichern</button>
                     </div>
