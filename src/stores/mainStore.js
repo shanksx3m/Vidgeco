@@ -21,7 +21,7 @@ class MainStore {
     logIn() {
         this.resetAlerts();
         //console.log(this.isLoggedIn)
-        this.isLoggedIn = true;
+        this.isLoggedIn = false;
         this.isLoggedIn ? (this.resetAlerts(), this.changeToHousehold()) : this.isFailedLogin = true;
         
     }
@@ -36,8 +36,8 @@ class MainStore {
     @action.bound
     saveUser() {        
         this.resetAlerts();
-        this.isRegistered ? this.isFailedLogin =false : this.isFailedLogin = true;
-        this.changeCurrentSite('login', '');
+        this.isRegistered = true;
+        this.changeCurrentSite('login', 'Anmeldung');
     }
     
     @action.bound
@@ -63,9 +63,9 @@ class MainStore {
         this.resetAlerts();
     }
     @action.bound
-    changeToLogin(){        
+    changeToLogin(){    
+        this.resetAlerts();    
         this.changeCurrentSite('login', 'Anmeldung'); 
-        this.resetAlerts();
     }
 
     

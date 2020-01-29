@@ -17,8 +17,7 @@ class Login extends React.Component {
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                    ) : ('')}
-                    {isFailedLogin ? (
+                    ) : isFailedLogin ? (
                         <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
                             E-Mail und Passwort stimmen nicht überein.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

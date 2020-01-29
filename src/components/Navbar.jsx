@@ -6,8 +6,13 @@ import { register } from '../serviceWorker';
 @observer
 class Navbar extends React.Component {
 
+  hideNavbar(){
+    
+  }
+
+
   render() {
-    const { isLoggedIn, logOut, changeToRegister, currentSite, changeToStart, currentHeadline, changeToNewProduct, changeToHousehold } = this.props.mainStore;
+    const { isLoggedIn, logOut, changeToLogin, changeToRegister, currentSite, changeToStart, currentHeadline, changeToNewProduct, changeToHousehold } = this.props.mainStore;
 
     return (
       <div>
@@ -39,7 +44,7 @@ class Navbar extends React.Component {
                     </li>
                   </ul>
                 </div>
-              ) :
+              ) : currentSite === 'login' ?
               (<div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
@@ -53,7 +58,21 @@ class Navbar extends React.Component {
                     <a className="nav-link" href="#" onClick={changeToRegister}>Registrieren</a>
                   </li>
                 </ul>
-              </div>)
+              </div>) : 
+              (<div className="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <a className="nav-link" href="#">Datenschutz</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">Impressum</a>
+                </li>
+
+                <li className="nav-item">
+                  <a className="nav-link" href="#" onClick={changeToLogin}>Login</a>
+                </li>
+              </ul>
+            </div>) 
 
           }
         </nav>
