@@ -96,10 +96,20 @@ class MainStore {
         this.resetAlerts();
         this.changeCurrentSite('login', 'Anmeldung');
     }
-@action.bound
-    changeToChangePassword(){
+    @action.bound
+    changeToChangePassword() {
         this.resetAlerts();
         this.changeCurrentSite('changePassword', 'Passwort ändern');
+    }
+    @action.bound
+    changeToDatenschutz() {
+        this.resetAlerts();
+        this.changeCurrentSite('datenschutz', 'Datenschutz');
+    }
+    @action.bound
+    changeToImpressum() {
+        this.resetAlerts();
+        this.changeCurrentSite('impressum', 'Impressum');
     }
 
 

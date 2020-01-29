@@ -6,6 +6,8 @@ import Navbar from "./components/Navbar";
 import Register from './components/Register';
 import NewProduct from './components/NewProduct';
 import ChangePassword from './components/ChangePassword';
+import Datenschutz from './components/Datenschutz';
+import Impressum from './components/Impressum';
 
 
 
@@ -31,6 +33,12 @@ class App extends React.Component {
 
         case 'changePassword':
             return <ChangePassword />
+            
+        case 'datenschutz':
+          return <Datenschutz />
+
+        case 'impressum':
+            return <Impressum />
             
       default:
         break;

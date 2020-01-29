@@ -5,17 +5,16 @@ import { register } from '../serviceWorker';
 @inject('mainStore')
 @observer
 class Navbar extends React.Component {
-
-  hideNavbar() {
-
-  }
-
-
   render() {
-    const { successMsg, errorMsg, isLoggedIn, logOut, changeToLogin, changeToRegister, currentSite, changeToStart, currentHeadline, changeToNewProduct, changeToHousehold, changeToChangePassword} = this.props.mainStore;
+    const { successMsg, errorMsg, isLoggedIn, logOut
+      , changeToLogin, changeToRegister, currentSite, changeToStart
+      , currentHeadline, changeToNewProduct, changeToHousehold
+      , changeToChangePassword, changeToDatenschutz, changeToImpressum} 
+      = this.props.mainStore;
 
     return (
       <div>
+        
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <a className="navbar-brand" href="#" onClick={changeToStart}><div className="h4">VIDGECO</div></a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,10 +36,10 @@ class Navbar extends React.Component {
                       <a className="nav-link" href="#" onClick={changeToChangePassword}>Passwort ändern</a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" href="#">Datenschutz</a>
+                      <a className="nav-link" href="#" onClick={changeToDatenschutz}>Datenschutz</a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" href="#">Impressum</a>
+                      <a className="nav-link" href="#" onClick={changeToImpressum}>Impressum</a>
                     </li>
 
                     <li className="nav-item">
@@ -48,35 +47,24 @@ class Navbar extends React.Component {
                     </li>
                   </ul>
                 </div>
-              ) : currentSite === 'login' ?
-                (<div className="collapse navbar-collapse" id="navbarSupportedContent">
+              )  : (
+                  <div className="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                      <a className="nav-link" href="#">Datenschutz</a>
+                      <a className="nav-link" href="#" onClick={changeToLogin}>Login</a>
+                    </li>  
+                    <li className="nav-item">
+                      <a className="nav-link" href="#" onClick={changeToDatenschutz}>Datenschutz</a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" href="#">Impressum</a>
-                    </li>
-
+                      <a className="nav-link" href="#" onClick={changeToImpressum}>Impressum</a>
+                    </li>                  
                     <li className="nav-item">
                       <a className="nav-link" href="#" onClick={changeToRegister}>Registrieren</a>
                     </li>
                   </ul>
-                </div>) :
-                (<div className="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul className="navbar-nav ml-auto">
-                    <li className="nav-item">
-                      <a className="nav-link" href="#">Datenschutz</a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="#">Impressum</a>
-                    </li>
-
-                    <li className="nav-item">
-                      <a className="nav-link" href="#" onClick={changeToLogin}>Login</a>
-                    </li>
-                  </ul>
-                </div>)
+                </div>
+                )
 
           }
         </nav>
