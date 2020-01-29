@@ -6,13 +6,13 @@ import { register } from '../serviceWorker';
 @observer
 class Navbar extends React.Component {
 
-  hideNavbar(){
-    
+  hideNavbar() {
+
   }
 
 
   render() {
-    const { isLoggedIn, logOut, changeToLogin, changeToRegister, currentSite, changeToStart, currentHeadline, changeToNewProduct, changeToHousehold } = this.props.mainStore;
+    const { successMsg, errorMsg, isLoggedIn, logOut, changeToLogin, changeToRegister, currentSite, changeToStart, currentHeadline, changeToNewProduct, changeToHousehold, changeToChangePassword} = this.props.mainStore;
 
     return (
       <div>
@@ -26,14 +26,18 @@ class Navbar extends React.Component {
               (
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul className="navbar-nav ml-auto">
-                    <li className="nav-item active">
-                      <a className="nav-link" href="#" onClick={changeToHousehold}>Übersicht <span className="sr-only">(current)</span></a>
+                    <li className="nav-item">
+                      {/* <a className="nav-link" href="#" onClick={changeToHousehold}>Übersicht <span className="sr-only">(current)</span></a> */}
+                      <a className="nav-link" href="#" onClick={changeToHousehold}>Übersicht</a>
                     </li>
                     <li className="nav-item">
                       <a className="nav-link" href="#" onClick={changeToNewProduct}>Neues Produkt</a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" href="#">Lagerorte</a>
+                      <a className="nav-link" href="#" onClick={changeToChangePassword}>Passwort ändern</a>
+                    </li>
+                    <li className="nav-item">
+                      <a className="nav-link" href="#">Datenschutz</a>
                     </li>
                     <li className="nav-item">
                       <a className="nav-link" href="#">Impressum</a>
@@ -45,42 +49,60 @@ class Navbar extends React.Component {
                   </ul>
                 </div>
               ) : currentSite === 'login' ?
-              (<div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav ml-auto">
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">Datenschutz</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">Impressum</a>
-                  </li>
+                (<div className="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul className="navbar-nav ml-auto">
+                    <li className="nav-item">
+                      <a className="nav-link" href="#">Datenschutz</a>
+                    </li>
+                    <li className="nav-item">
+                      <a className="nav-link" href="#">Impressum</a>
+                    </li>
 
-                  <li className="nav-item">
-                    <a className="nav-link" href="#" onClick={changeToRegister}>Registrieren</a>
-                  </li>
-                </ul>
-              </div>) : 
-              (<div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <a className="nav-link" href="#">Datenschutz</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">Impressum</a>
-                </li>
+                    <li className="nav-item">
+                      <a className="nav-link" href="#" onClick={changeToRegister}>Registrieren</a>
+                    </li>
+                  </ul>
+                </div>) :
+                (<div className="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul className="navbar-nav ml-auto">
+                    <li className="nav-item">
+                      <a className="nav-link" href="#">Datenschutz</a>
+                    </li>
+                    <li className="nav-item">
+                      <a className="nav-link" href="#">Impressum</a>
+                    </li>
 
-                <li className="nav-item">
-                  <a className="nav-link" href="#" onClick={changeToLogin}>Login</a>
-                </li>
-              </ul>
-            </div>) 
+                    <li className="nav-item">
+                      <a className="nav-link" href="#" onClick={changeToLogin}>Login</a>
+                    </li>
+                  </ul>
+                </div>)
 
           }
         </nav>
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">{currentHeadline}</li>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item active" aria-current="page">{currentHeadline}</li>
           </ol>
         </nav>
+        {successMsg != '' ?
+          (
+            <div className="alert alert-success alert-dismissible fade show" role="alert">
+              {successMsg}
+              <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+          ) : errorMsg != '' ? (
+            <div className="alert alert alert-danger alert-dismissible fade show" role="alert">
+              {errorMsg}
+              <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          ) : ('')
+        }
       </div>
     )
   }

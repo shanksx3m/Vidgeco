@@ -5,26 +5,11 @@ import { observer, inject } from 'mobx-react';
 @observer
 class Login extends React.Component {
     render() {
-        const { logIn, isRegistered, isFailedLogin } = this.props.mainStore;
+        const { logIn } = this.props.mainStore;
 
         return (
             <div className="Login">
                 <div className="Content" className="container">
-                    {isRegistered ? (
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            Registrierung erfolgreich! Sie können sich nun anmelden.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    ) : isFailedLogin ? (
-                        <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
-                            E-Mail und Passwort stimmen nicht überein.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    ) : ('')}
                     <div className="row">
                         <div className="col-sm"></div>
 

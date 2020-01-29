@@ -5,15 +5,16 @@ class MainStore {
     @observable isFailedLogin = false;
     @observable isRegistered = false;
     @observable isProductSaved = false;
+    @observable errorMsg = '';
+    @observable successMsg = '';
     @observable currentSite = 'login';
     @observable currentHeadline = 'Anmeldung';
 
 
     @action.bound
     resetAlerts() {
-        this.isFailedLogin = false;
-        this.isRegistered = false;
-        this.isProductSaved = false;        
+        this.errorMsg = '';
+        this.successMsg = '';
     }
 
 
@@ -21,9 +22,16 @@ class MainStore {
     logIn() {
         this.resetAlerts();
         //console.log(this.isLoggedIn)
-        this.isLoggedIn = false;
-        this.isLoggedIn ? (this.resetAlerts(), this.changeToHousehold()) : this.isFailedLogin = true;
-        
+        this.isLoggedIn = true;
+        this.isLoggedIn ?
+            (
+                this.resetAlerts()
+                , this.changeToHousehold()
+            ) :
+            (
+                this.errorMsg = 'E-Mail und Passwort stimmen nicht überein.'
+            )
+
     }
 
     @action.bound
@@ -34,43 +42,69 @@ class MainStore {
     }
 
     @action.bound
-    saveUser() {        
+    saveUser() {
         this.resetAlerts();
-        this.isRegistered = true;
+        this.successMsg = 'Registrierung erfolgreich! Sie können sich nun anmelden.';
         this.changeCurrentSite('login', 'Anmeldung');
     }
-    
+
     @action.bound
-    saveProduct() {        
-        this.isProductSaved = true;
-        
+    savePassword() {
+        this.resetAlerts();
+        this.successMsg = 'Passwort erfolgreich geändert.';
+        this.changeCurrentSite('household', 'Übersicht');
     }
 
     @action.bound
-    changeToRegister(){        
-        this.changeCurrentSite('register', 'Registrierung'); 
+    deleteUser() {
+        this.resetAlerts();
+        this.isLoggedIn = false;
+        this.changeCurrentSite('login', 'Anmeldung');
+    }
+
+    @action.bound
+    saveProduct() {
+        this.resetAlerts();
+        this.successMsg = 'Produkt erfolgreich angelegt';
+        this.changeCurrentSite('household', 'Übersicht');
+
+    }
+
+    @action.bound
+    deleteProduct() {
+
+    }
+
+    @action.bound
+    changeToRegister() {
+        this.changeCurrentSite('register', 'Registrierung');
         this.resetAlerts();
     }
 
     @action.bound
-    changeToNewProduct(){        
-        this.changeCurrentSite('newProduct', 'Neues Produkt'); 
+    changeToNewProduct() {
+        this.changeCurrentSite('newProduct', 'Neues Produkt');
         this.resetAlerts();
     }
     @action.bound
-    changeToHousehold(){        
-        this.changeCurrentSite('household', 'Übersicht'); 
+    changeToHousehold() {
+        this.changeCurrentSite('household', 'Übersicht');
         this.resetAlerts();
     }
     @action.bound
-    changeToLogin(){    
-        this.resetAlerts();    
-        this.changeCurrentSite('login', 'Anmeldung'); 
+    changeToLogin() {
+        this.resetAlerts();
+        this.changeCurrentSite('login', 'Anmeldung');
+    }
+@action.bound
+    changeToChangePassword(){
+        this.resetAlerts();
+        this.changeCurrentSite('changePassword', 'Passwort ändern');
     }
 
-    
+
     @action.bound
-    changeToStart(){        
+    changeToStart() {
         this.isLoggedIn ? this.changeToHousehold() : this.changeToLogin();
         this.resetAlerts();
     }
@@ -79,7 +113,7 @@ class MainStore {
     @action.bound
     changeCurrentSite(sitename, headline) {
         this.currentSite = sitename;
-        this.currentHeadline = headline; 
+        this.currentHeadline = headline;
     }
 }
 

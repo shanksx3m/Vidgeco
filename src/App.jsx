@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import Register from './components/Register';
 import NewProduct from './components/NewProduct';
+import ChangePassword from './components/ChangePassword';
 
 
 
@@ -27,7 +28,10 @@ class App extends React.Component {
 
         case 'newProduct':
             return <NewProduct />
-        
+
+        case 'changePassword':
+            return <ChangePassword />
+            
       default:
         break;
     }
