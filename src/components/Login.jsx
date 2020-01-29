@@ -5,11 +5,27 @@ import { observer, inject } from 'mobx-react';
 @observer
 class Login extends React.Component {
     render() {
-        const { logIn } = this.props.mainStore;
+        const { logIn, isRegistered, isFailedLogin } = this.props.mainStore;
 
         return (
             <div className="Login">
                 <div className="Content" className="container">
+                    {isRegistered ? (
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            Registrierung erfolgreich! Sie können sich nun anmelden.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    ) : ('')}
+                    {isFailedLogin ? (
+                        <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
+                            E-Mail und Passwort stimmen nicht überein.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    ) : ('')}
                     <div className="row">
                         <div className="col-sm"></div>
 
@@ -23,10 +39,10 @@ class Login extends React.Component {
                                 <label htmlFor="loginPassword">Passwort</label>
                                 <input type="password" className="form-control" id="loginPassword" />
                             </div>
-                            <div className="form-group form-check">
+                            {/* <div className="form-group form-check">
                                 <input type="checkbox" className="form-check-input" id="loginCheck" />
                                 <label className="form-check-label" htmlFor="loginCheck">Angemeldet bleiben.</label>
-                            </div>
+                            </div> */}
                             <button type="submit" className="btn btn-primary" onClick={logIn}>anmelden</button>
                         </div>
                         <div className="col-sm"></div>

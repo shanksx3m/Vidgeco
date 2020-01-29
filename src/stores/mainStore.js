@@ -2,25 +2,84 @@ import { observable, action } from 'mobx';
 
 class MainStore {
     @observable isLoggedIn = false;
+    @observable isFailedLogin = false;
+    @observable isRegistered = false;
+    @observable isProductSaved = false;
+    @observable currentSite = 'login';
+    @observable currentHeadline = 'Anmeldung';
+
+
+    @action.bound
+    resetAlerts() {
+        this.isFailedLogin = false;
+        this.isRegistered = false;
+        this.isProductSaved = false;        
+    }
+
 
     @action.bound
     logIn() {
-        this.isLoggedIn = true;
-        this.currentSite = 'household'
+        this.resetAlerts();
         //console.log(this.isLoggedIn)
+        this.isLoggedIn = true;
+        this.isLoggedIn ? (this.resetAlerts(), this.changeToHousehold()) : this.isFailedLogin = true;
+        
     }
 
     @action.bound
     logOut() {
+        this.resetAlerts();
         this.isLoggedIn = false;
+        this.changeToLogin();
+    }
+
+    @action.bound
+    saveUser() {        
+        this.resetAlerts();
+        this.isRegistered ? this.isFailedLogin =false : this.isFailedLogin = true;
+        this.changeCurrentSite('login', '');
+    }
+    
+    @action.bound
+    saveProduct() {        
+        this.isProductSaved = true;
+        
+    }
+
+    @action.bound
+    changeToRegister(){        
+        this.changeCurrentSite('register', 'Registrierung'); 
+        this.resetAlerts();
+    }
+
+    @action.bound
+    changeToNewProduct(){        
+        this.changeCurrentSite('newProduct', 'Neues Produkt'); 
+        this.resetAlerts();
+    }
+    @action.bound
+    changeToHousehold(){        
+        this.changeCurrentSite('household', 'Übersicht'); 
+        this.resetAlerts();
+    }
+    @action.bound
+    changeToLogin(){        
+        this.changeCurrentSite('login', 'Anmeldung'); 
+        this.resetAlerts();
+    }
+
+    
+    @action.bound
+    changeToStart(){        
+        this.isLoggedIn ? this.changeToHousehold() : this.changeToLogin();
+        this.resetAlerts();
     }
 
 
-    @observable currentSite = 'login';
-
     @action.bound
-    changeCurrentSite(sitename) {
+    changeCurrentSite(sitename, headline) {
         this.currentSite = sitename;
+        this.currentHeadline = headline; 
     }
 }
 

@@ -9,4 +9,4 @@ const productSchema = mongoose.Schema({
     mhd: Date
 });
 
-module.exports = mongoose.model('Product', productSchema);
+module.exports = mongoose.model('ProductModel', productSchema);
