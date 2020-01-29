@@ -1,4 +1,7 @@
+// const mongoose = require('mongoose');
+import mongoose from "mongoose";
 import { observable, action } from 'mobx';
+import { userSchema } from '../models/userModel';
 
 class MainStore {
     @observable isLoggedIn = false;
@@ -9,14 +12,28 @@ class MainStore {
     @observable successMsg = '';
     @observable currentSite = 'login';
     @observable currentHeadline = 'Anmeldung';
+    @observable email = undefined;
+    @observable registerEmail = undefined;
+    @observable registerPassword1 = undefined;
+    @observable registerPassword2 = undefined;
+    @observable userModel = undefined;
 
+    constructor() {
+        // this.initialize()
+    }
+
+    @action.bound
+    async initialize() {
+        const connection = await mongoose.createConnection('mongodb+srv://vidgecoApp:wUm3yHfG4abT9pPL@vidgeco-pfqjo.mongodb.net/test?retryWrites=true&w=majority');
+        this.userModel = connection.model('UserModel', userSchema)
+        await this.userModel.ensureIndexes()
+    }
 
     @action.bound
     resetAlerts() {
         this.errorMsg = '';
         this.successMsg = '';
     }
-
 
     @action.bound
     logIn() {
@@ -31,7 +48,6 @@ class MainStore {
             (
                 this.errorMsg = 'E-Mail und Passwort stimmen nicht überein.'
             )
-
     }
 
     @action.bound
@@ -42,8 +58,48 @@ class MainStore {
     }
 
     @action.bound
-    saveUser() {
+    updateRegisterEmail(value) {
+        this.registerEmail = value
+    }
+    @action.bound
+    updateRegisterPassword1(value) {
+        this.registerPassword1 = value
+    }
+    @action.bound
+    updateRegisterPassword2(value) {
+        this.registerPassword2 = value
+    }
+
+
+    @action.bound
+    async saveUser() {
         this.resetAlerts();
+
+        if (!this.registerEmail || !this.registerPassword1 || !this.registerPassword2) {
+            this.errorMsg = 'Fehlende Pflichtfelder.'
+            return
+        }
+
+        // TODO check on email if it is a valid email
+
+        if (this.registerPassword1 !== this.registerPassword2) {
+            this.errorMsg = 'Passwörter stimmen nicht überein.'
+            return
+        }
+
+        const newUser = {
+            email: this.registerEmail,
+            password: this.registerPassword1
+        }
+        console.log(newUser)
+
+        // const dbUser = await this.userModel.findOneAndUpdate({ email: newUser.email }, { $setOnInsert: newUser }, { upsert: true, new: true }).lean()
+
+        // if (dbUser.password !== newUser.password) {
+        //     this.errorMsg = 'Diese Email wird bereits für einen anderen Account verwendet.'
+        //     return
+        // }
+
         this.successMsg = 'Registrierung erfolgreich! Sie können sich nun anmelden.';
         this.changeCurrentSite('login', 'Anmeldung');
     }

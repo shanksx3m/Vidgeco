@@ -16,30 +16,30 @@ import Impressum from './components/Impressum';
 class App extends React.Component {
   renderCurrentSite() {
     const { currentSite } = this.props.mainStore
-    
+
 
     switch (currentSite) {
       case 'login':
         return <Login />
-        
+
       case 'household':
         return <Household />
 
-        case 'register':
-          return <Register />
+      case 'register':
+        return <Register />
 
-        case 'newProduct':
-            return <NewProduct />
+      case 'newProduct':
+        return <NewProduct />
 
-        case 'changePassword':
-            return <ChangePassword />
-            
-        case 'datenschutz':
-          return <Datenschutz />
+      case 'changePassword':
+        return <ChangePassword />
 
-        case 'impressum':
-            return <Impressum />
-            
+      case 'datenschutz':
+        return <Datenschutz />
+
+      case 'impressum':
+        return <Impressum />
+
       default:
         break;
     }
@@ -47,7 +47,6 @@ class App extends React.Component {
 
 
   render() {
-    const { isLoggedIn } = this.props.mainStore
     return (
       <div className="App">
         <Navbar />

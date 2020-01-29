@@ -1,11 +1,8 @@
-import productSchema from './models/productModel';
 const mongoose = require('mongoose');
+import { productSchema } from "./productModel";
 
-const userSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    email: String,
+export const userSchema = mongoose.Schema({
+    email: { type: String, unique: true, index: true },
     password: String,
-    //products: [productSchema]
+    products: [productSchema]
 });
-
-module.exports = mongoose.model('UserModel', userSchema);
