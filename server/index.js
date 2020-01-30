@@ -25,7 +25,6 @@ app.get('/login/:email/:password', async (req, res) => {
   try {
     const { email, password } = req.params
     const user = await userModel.findOne({ email }).lean()
-    console.log(user)
 
     if (!user) {
       return res.status(404).send('No user registered with this email')
@@ -67,7 +66,6 @@ app.post('/register', async (req, res) => {
 
     // Füge einen neuen user hinzu, wenn noch keiner mit dieser Email existiert
     const newUser = await userModel.findOneAndUpdate({ email }, { $setOnInsert: { email, password, householdName } }, { upsert: true, new: true }).lean()
-    console.log(newUser)
 
     res.status(200).send(newUser)
   } catch (error) {
@@ -112,12 +110,131 @@ app.post('/changePassword', async (req, res) => {
   }
 })
 
-// createProduct
-// deleteUser
-// deleteProduct
-// changeProduct
+app.post('/deleteUser', async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
 
+  if (!userModel) {
+    return res.status(503).end()
+  }
 
+  try {
+    if (!req.body) {
+      return res.status(400).end('Missing body')
+    }
+
+    const { userId } = req.body
+    if (!userId) {
+      return res.status(400).send('Missing field in body')
+    }
+
+    await userModel.deleteOne({ _id: userId })
+
+    res.status(200).send('Success')
+  } catch (error) {
+    console.log(error)
+    return res.status(500).end()
+  }
+})
+
+app.post('/createProduct', async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
+
+  if (!userModel) {
+    return res.status(503).end()
+  }
+
+  try {
+    if (!req.body) {
+      return res.status(400).end('Missing body')
+    }
+
+    const { userId, product } = req.body
+    if (!userId || !product) {
+      return res.status(400).send('Missing field in body')
+    }
+
+    const { name, imgUrl, menge, mengeneinheit, lagerort, mhd } = product
+    if (!name || !imgUrl || !menge || !mengeneinheit || !lagerort || !mhd) {
+      return res.status(400).send('Missing field in product')
+    }
+
+    const updatedUser = await userModel.findOneAndUpdate({ _id: userId }, { $push: { products: product } }, { new: true }).lean()
+
+    if (!updatedUser) {
+      return res.status(400).end('No user with this _id found')
+    }
+
+    res.status(200).send(updatedUser)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).end()
+  }
+})
+
+app.post('/updateProduct', async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
+
+  if (!userModel) {
+    return res.status(503).end()
+  }
+
+  try {
+    if (!req.body) {
+      return res.status(400).end('Missing body')
+    }
+
+    const { productId, product } = req.body
+    if (!productId || !product) {
+      return res.status(400).send('Missing field in body')
+    }
+
+    const { name, imgUrl, menge, mengeneinheit, lagerort, mhd } = product
+    if (!name || !imgUrl || !menge || !mengeneinheit || !lagerort || !mhd) {
+      return res.status(400).send('Missing field in product')
+    }
+
+    const updatedUser = await userModel.update({ "products._id": productId }, { $set: { "products.$": product } }, { new: true }).lean()
+
+    if (!updatedUser) {
+      return res.status(400).end('No user with this _id found')
+    }
+
+    res.status(200).send(updatedUser)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).end()
+  }
+})
+
+app.post('/deleteProduct', async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
+
+  if (!userModel) {
+    return res.status(503).end()
+  }
+
+  try {
+    if (!req.body) {
+      return res.status(400).end('Missing body')
+    }
+
+    const { userId, productId } = req.body
+    if (!userId || !productId) {
+      return res.status(400).send('Missing field in body')
+    }
+
+    const status = await userModel.updateOne({ _id: userId }, { $pull: { products: { _id: productId } } }).lean()
+
+    if (!status.nModified) {
+      return res.status(400).end("Didn't find product with specified id")
+    }
+
+    res.status(200).send(updatedUser)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).end()
+  }
+})
 
 async function connectToMongoDB() {
   const connection = mongoose.createConnection('mongodb+srv://vidgecoApp:wUm3yHfG4abT9pPL@vidgeco-pfqjo.mongodb.net/test?retryWrites=true&w=majority');
