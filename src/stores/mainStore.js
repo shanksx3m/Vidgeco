@@ -1,7 +1,8 @@
 import { observable, action } from 'mobx';
 import Axios from "axios";
 
-const serverUrl = "http://localhost:3001"
+//const serverUrl = "http://localhost:3001"
+const serverUrl = "http://192.168.178.48:3001"
 
 class MainStore {
     @observable userId = undefined;
