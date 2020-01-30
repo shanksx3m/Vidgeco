@@ -316,20 +316,25 @@ class MainStore {
             return
         }
 
-
         try {
-            const endpoint = !this.productID ? "/createProduct" : "/updateProduct"
-            const res = await Axios.post(`${serverUrl}${endpoint}`, {
-                userId: this.userId,
-                product: {
-                    name: this.productName,
-                    imgUrl: this.productImgUrl,
-                    menge: this.productMenge,
-                    mengeneinheit: this.productEinheit,
-                    lagerort: this.productLagerort,
-                    mhd: this.productMHD,
+            const product = {
+                name: this.productName,
+                imgUrl: this.productImgUrl,
+                menge: this.productMenge,
+                mengeneinheit: this.productEinheit,
+                lagerort: this.productLagerort,
+                mhd: this.productMHD,
+            }
+            const { endpoint, update } = !this.productID ?
+                {
+                    endpoint: "/createProduct",
+                    update: { userId: this.userId, product }
+                } : {
+                    endpoint: "/updateProduct",
+                    update: { productId: this.productID, product }
                 }
-            })
+
+            const res = await Axios.post(`${serverUrl}${endpoint}`, update)
 
             //Erfolgsmeldung und Rückkehr zur Übersicht
             this.products = res.data.products

@@ -219,7 +219,7 @@ app.post('/updateProduct', async (req, res) => {
       return res.status(400).send('Missing field in product')
     }
 
-    const updatedUser = await userModel.update({ 'products._id': productId }, { $set: { 'products.$': product } }, { new: true }).lean()
+    const updatedUser = await userModel.findOneAndUpdate({ 'products._id': productId }, { $set: { 'products.$': product } }, { new: true }).lean()
 
     if (!updatedUser) {
       return res.status(400).end('No user with this _id found')
