@@ -177,23 +177,23 @@ class MainStore {
     async saveUser() {
         this.resetAlerts();
 
-        // // Prüfung ob Haushalt-Name, E-Mail und Passworfelder leer
-        // if (!this.registerHousehold || !this.registerEmail || !this.registerPassword1 || !this.registerPassword2) {
-        //     this.errorMsg = 'Bitte alle Felder ausfüllen.'
-        //     return
-        // }
+        // Prüfung ob Haushalt-Name, E-Mail und Passworfelder leer
+        if (!this.registerHousehold || !this.registerEmail || !this.registerPassword1 || !this.registerPassword2) {
+            this.errorMsg = 'Bitte alle Felder ausfüllen.'
+            return
+        }
 
-        // //Prüfung ob E-Mail korrekte Adresse ist
-        // if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.registerEmail)) {
-        //     this.errorMsg = 'Bitte korrekte E-Mail Adresse angeben.'
-        //     return
-        // }
+        //Prüfung ob E-Mail korrekte Adresse ist
+        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.registerEmail)) {
+            this.errorMsg = 'Bitte korrekte E-Mail Adresse angeben.'
+            return
+        }
 
-        // //Prüfung ob Passwörter übereinstimmen
-        // if (this.registerPassword1 !== this.registerPassword2) {
-        //     this.errorMsg = 'Passwörter stimmen nicht überein.'
-        //     return
-        // }
+        //Prüfung ob Passwörter übereinstimmen
+        if (this.registerPassword1 !== this.registerPassword2) {
+            this.errorMsg = 'Passwörter stimmen nicht überein.'
+            return
+        }
 
         // Passwortlänge prüfen
         // if (this.registerPassword1) {
@@ -202,21 +202,11 @@ class MainStore {
         // }
 
         try {
-            const user = {
-                email: this.registerEmail || "asd",
-                password: this.registerPassword1 || "sdsd",
-                householdName: this.registerHousehold || "asd"
-            }
-
-            console.log(user)
-
-            await Axios.post(`http://localhost:3001/register`, JSON.stringify(user), {
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    'Content-Type': 'application/json'
-                }
+            await Axios.post(`http://localhost:3001/register`, {
+                email: this.registerEmail,
+                password: this.registerPassword1,
+                householdName: this.registerHousehold
             })
-
 
             //Erfolgsmeldung und Rückkehr zur Übersicht
             this.successMsg = 'Registrierung erfolgreich! Sie können sich nun anmelden.';

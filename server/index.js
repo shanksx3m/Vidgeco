@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const { userSchema } = require('./models')
@@ -8,6 +9,7 @@ const port = 3001
 let userModel
 mongoose.set('useFindAndModify', false);
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -42,8 +44,6 @@ app.get('/login/:email/:password', async (req, res) => {
 
 app.post('/register', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'POST')
-  res.header('x-frame-options', 'SAMEORIGIN')
 
   if (!userModel) {
     return res.status(503).end()
