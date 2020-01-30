@@ -16,7 +16,6 @@ class Household extends React.Component {
             <div className="Household">
                 <div className="Content" className="container">
                     {/* Name des Haushaltes */}
-                    <p className="h1">Haushalt 1B</p>
                     <p className="h1">{householdName}</p>
                     <p className="h4">
                     </p>
