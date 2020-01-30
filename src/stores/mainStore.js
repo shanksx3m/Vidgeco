@@ -333,8 +333,8 @@ class MainStore {
 
             //Erfolgsmeldung und Rückkehr zur Übersicht
             this.products = res.data.products
-            
-            this.successMsg = 'Produkt erfolgreich '+ !this.productID ? "angelegt" : "geändert";
+
+            this.successMsg = 'Produkt erfolgreich ' + !this.productID ? "angelegt" : "geändert";
             this.resetObservables();
             this.changeCurrentSite('household', 'Übersicht');
         } catch (error) {
@@ -405,11 +405,13 @@ class MainStore {
 
     @action.bound
     changeToNewProduct() {
+        this.productID = undefined
         this.changeCurrentSite('newProduct', 'Neues Produkt');
         this.resetAlerts();
     }
     @action.bound
-    changeToEditProduct() {
+    changeToEditProduct(productId) {
+        this.productID = productId
         this.changeCurrentSite('editProduct', 'Produkt bearbeiten');
         this.resetAlerts();
     }
