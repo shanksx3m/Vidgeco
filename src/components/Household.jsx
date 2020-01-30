@@ -5,11 +5,12 @@ import Product from './Product';
 @inject('mainStore')
 @observer
 class Household extends React.Component {
-    render() {
+    render() {   
+
         return (
             <div className="Household">
                 <div className="Content" className="container">
-                    <p className="h1">Hamsterbau</p>
+                    <p className="h1">Haushalt 1B</p>
                     <p className="h4">
                     </p>
                     <div className="Produkte" className="container">

@@ -14,12 +14,16 @@ class MainStore {
     @observable currentSite = 'login';
     @observable currentHeadline = 'Anmeldung';
     @observable email = undefined;
+    @observable registerHousehold = undefined;
     @observable registerEmail = undefined;
     @observable registerPassword1 = undefined;
     @observable registerPassword2 = undefined;
+    @observable registerOldPassword = undefined;
+    @observable registerNewPassword1 = undefined;
+    @observable registerNewPassword2 = undefined;
     @observable productName = undefined;
     @observable productMenge = undefined;
-    @observable productEinheit = undefined;
+    @observable productEinheit = "Stück";
     @observable productLagerort = undefined;
     @observable productMHD = undefined;
     @observable userModel = undefined;
@@ -62,7 +66,10 @@ class MainStore {
         this.isLoggedIn = false;
         this.changeToLogin();
     }
-
+    @action.bound
+    updateRegisterHousehold(value) {
+        this.registerHousehold = value
+    }
     @action.bound
     updateRegisterEmail(value) {
         this.registerEmail = value
@@ -97,23 +104,48 @@ class MainStore {
     updateRegisterProductLagerort(value) {
         this.productLagerort = value
     }
+    @action.bound
+    updateOldPassword(value) {
+        this.registerOldPassword = value
+    }    
+    @action.bound
+    updateNewPassword1(value) {
+        this.registerNewPassword1 = value
+    }
+    @action.bound
+    updateNewPassword2(value) {
+        this.registerNewPassword2 = value
+    }
 
     @action.bound
     async saveUser() {
         this.resetAlerts();
 
-        if (!this.registerEmail || !this.registerPassword1 || !this.registerPassword2) {
-            this.errorMsg = 'Fehlende Pflichtfelder.'
+        // Prüfung ob Haushalt-Name, E-Mail und Passworfelder leer
+        if (!this.registerHousehold || !this.registerEmail || !this.registerPassword1 || !this.registerPassword2) {
+            this.errorMsg = 'Bitte alle Felder ausfüllen.'
             return
         }
 
-        // TODO check on email if it is a valid email
+        //Prüfung ob E-Mail korrekte Adresse ist
+        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.registerEmail)) {
+            this.errorMsg = 'Bitte korrekte E-Mail Adresse angeben.'
+            return
+        }
 
+        //Prüfung ob Passwörter übereinstimmen
         if (this.registerPassword1 !== this.registerPassword2) {
             this.errorMsg = 'Passwörter stimmen nicht überein.'
             return
         }
 
+        // Passwortlänge prüfen
+        // if (this.registerPassword1) {
+        //     this.errorMsg = 'Das Passwort muss mindestens 5 Zeichen haben.'
+        //     return
+        // }
+
+        
         const newUser = {
             email: this.registerEmail,
             password: this.registerPassword1
@@ -134,6 +166,26 @@ class MainStore {
     @action.bound
     savePassword() {
         this.resetAlerts();
+
+        //Prüfung ob alle Felder ausgefüllt sind
+        if (!this.registerNewPassword1 || !this.registerNewPassword2 || !this.registerOldPassword ) {
+            this.errorMsg = 'Bitte alle Felder ausfüllen.' +this.registerOldPassword 
+            + ' ' + this.registerNewPassword1 + ' ' + this.registerNewPassword2
+            return
+        }
+
+        //!Prüfung ob altes Passwort stimmt
+        if (this.registerOldPassword !== 'test') {
+            this.errorMsg = 'Ihr aktuelles Passwort ist falsch.'
+            return
+        }
+
+        //Prüfung ob neue Passwörter gleich sind
+        if (this.registerNewPassword1 !== this.registerNewPassword2) {
+            this.errorMsg = 'Die neuen Passwörter stimmen nicht überein.'
+            return
+        }
+
         this.successMsg = 'Passwort erfolgreich geändert.';
         this.changeCurrentSite('household', 'Übersicht');
     }
@@ -147,6 +199,11 @@ class MainStore {
 
     @action.bound
     saveProduct() {
+        if(!this.productName || !this.productMenge || !this.productEinheit){
+            this.errorMsg = "Bitte alle Pflichtfelder Ausfüllen";
+            return
+        }
+
         this.resetAlerts();
         this.successMsg = 'Produkt erfolgreich angelegt';
         this.changeCurrentSite('household', 'Übersicht');

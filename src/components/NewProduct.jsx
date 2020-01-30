@@ -39,15 +39,15 @@ class NewProduct extends React.Component {
                     <div className="col-sm"></div>
                     <div className="col-sm">
                         <div className="form-group">
-                            <label for="productName">Produktname</label>
+                            <label for="productName">Produktname *</label>
                             <input onChange={this.onProductNameInput.bind(this)} type="text" className="form-control" id="productName" placeholder="z.B. Brokkoli" />
                         </div>
                         <div className="form-group">
-                            <label for="productMenge">Menge</label>
+                            <label for="productMenge">Menge *</label>
                             <input onChange={this.onProductMengeInput.bind(this)} type="text" className="form-control" id="productMenge" placeholder="z.B. 15" />
                         </div>
                         <div className="form-group">
-                            <label for="productEinheit">Example select</label>
+                            <label for="productEinheit">Mengeneinheit auswählen *</label>
                             <select onChange={this.onProductEinheitInput.bind(this)} className="form-control" id="productEinheit">
                                 <option>Stück</option>
                                 <option>KG</option>
@@ -61,6 +61,9 @@ class NewProduct extends React.Component {
                         <div className="form-group">
                             <label for="productLagerort">Lagerort</label>
                             <input onChange={this.onProductLagerortInput.bind(this)} type="text" className="form-control" id="productLagerort" placeholder="z.B. Kühlschrank" />
+                        </div>
+                        <div className="form-group">
+                            <p><small>* Pflichtfeld</small></p>
                         </div>
                         <button type="submit" className="btn btn-primary" onClick={saveProduct}>speichern</button>
                     </div>
