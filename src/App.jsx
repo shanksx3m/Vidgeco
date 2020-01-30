@@ -15,9 +15,10 @@ import Impressum from './components/Impressum';
 @observer
 class App extends React.Component {
   renderCurrentSite() {
+    //Implementiert die Methode 'currentSite()' aus der mainStore.js
     const { currentSite } = this.props.mainStore
 
-
+    //Methode zum Laden der Richtigen Seite/Component
     switch (currentSite) {
       case 'login':
         return <Login />
@@ -47,13 +48,17 @@ class App extends React.Component {
 
 
   render() {
-    return (
+    return (      
+      //Folgendes wird gerendert: Immer die Navigation (Navbar) und zusätzlich der Content der Seite (renderCurrentSite())
       <div className="App">
         <Navbar />
-        {this.renderCurrentSite()}
+        {
+          //Methode die den korrecten Inhalt rendert
+          this.renderCurrentSite()
+        }
       </div>
     );
   }
 }
-
+//exportiert den Inhalt der Class App
 export default App

@@ -4,6 +4,8 @@ import Octicon, { Trashcan, Flame } from '@primer/octicons-react'; //Octicon ist
 
 @inject('mainStore')
 @observer
+
+// Class, die das Layout eines Produktes exportiert
 class Product extends React.Component {
     render() {
         return (

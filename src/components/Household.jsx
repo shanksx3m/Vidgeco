@@ -4,15 +4,21 @@ import Product from './Product';
 
 @inject('mainStore')
 @observer
+
+//Zeigt übersicht über alle Produkte/Zutaten mit allen Daten an. Löschung der Daten durch Buttonclick möglich. 
+//Die Ausgabe erfolgt dir die Class 'Product' aus der Produkt.jsx
 class Household extends React.Component {
     render() {   
 
         return (
             <div className="Household">
                 <div className="Content" className="container">
+                    {/* Name des Haushaltes */}
                     <p className="h1">Haushalt 1B</p>
                     <p className="h4">
                     </p>
+                    
+                    {/* Anzeige der Produkte mit Hilfe der Klasse 'Product' aus der Datei Product.jsx */}
                     <div className="Produkte" className="container">
                         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4">
                             <div className="col product-div"><Product id="0" name='Brokkoli' menge='400 g' mhd='10.10.2020' lagerort='Gefrierschrank' image="https://cdn.pixabay.com/photo/2015/03/14/13/59/vegetables-673181_960_720.jpg" /></div>

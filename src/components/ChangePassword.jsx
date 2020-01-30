@@ -3,27 +3,31 @@ import { observer, inject } from 'mobx-react';
 
 @inject('mainStore')
 @observer
+
+// Class/Seite zum ändern des Passwortes
 class ChangePassword extends React.Component {
+
+    //onChange Methoden um die aktuelle Eingabe in Hilfsvariablen zu speichern.
     onOldPasswordInput() {
         const { updateOldPassword } = this.props.mainStore;
         const { value } = document.getElementById("oldPassword");
         updateOldPassword(value)
     }
-
     onNewPassword1Input() {
         const { updateNewPassword1 } = this.props.mainStore;
         const { value } = document.getElementById("newPassword1");
         updateNewPassword1(value)
-    }
-    
+    }    
     onNewPassword2Input() {
         const { updateNewPassword2 } = this.props.mainStore;
         const { value } = document.getElementById("newPassword2");
         updateNewPassword2(value)
     }
     
+    //Renderfunktion mit ausgabe des Contents
     render() {
-        const { savePassword} = this.props.mainStore;
+
+        const { savePassword } = this.props.mainStore; //savePassword Methode aus der mainStore.jsx
         return (
             <div className="ChangePassword">                
                 <div className="Content" className="container">

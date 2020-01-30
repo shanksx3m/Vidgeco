@@ -3,6 +3,8 @@ import { observer, inject } from 'mobx-react';
 
 @inject('mainStore')
 @observer
+
+// Class/Seite zum Registrieren eines Nutzers
 class Register extends React.Component {
     onHouseholdInput() {
         const { updateRegisterHousehold } = this.props.mainStore;

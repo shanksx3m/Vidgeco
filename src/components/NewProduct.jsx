@@ -3,6 +3,8 @@ import { observer, inject } from 'mobx-react';
 
 @inject('mainStore')
 @observer
+
+// Class/Seite zum anlegen neuer Produkte
 class NewProduct extends React.Component {
     onProductNameInput() {
         const { updateRegisterProductName } = this.props.mainStore;

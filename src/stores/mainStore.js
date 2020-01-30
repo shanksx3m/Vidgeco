@@ -5,30 +5,27 @@ import { userSchema } from '../models/userModel';
 import { productSchema } from "../models/productModel";
 
 class MainStore {
-    @observable isLoggedIn = false;
-    @observable isFailedLogin = false;
-    @observable isRegistered = false;
-    @observable isProductSaved = false;
-    @observable errorMsg = '';
-    @observable successMsg = '';
-    @observable currentSite = 'login';
-    @observable currentHeadline = 'Anmeldung';
+    @observable isLoggedIn = false; //Hilfsvariable für Login
+    @observable errorMsg = ''; //Hilfsvariable für Fehlermeldungen
+    @observable successMsg = ''; //Hilfsvariable für Erfolgsmeldungen
+    @observable currentSite = 'login'; //Hilfsvariable aktuelle Seite
+    @observable currentHeadline = 'Anmeldung'; //Hilfsvariable aktuelle Überschrift (Breadcrumb)
     @observable email = undefined;
-    @observable loginEmail = undefined;
-    @observable loginPassword = undefined;
-    @observable registerHousehold = undefined;
-    @observable registerEmail = undefined;
-    @observable registerPassword1 = undefined;
-    @observable registerPassword2 = undefined;
-    @observable registerOldPassword = undefined;
-    @observable registerNewPassword1 = undefined;
-    @observable registerNewPassword2 = undefined;
-    @observable productName = undefined;
-    @observable productMenge = undefined;
-    @observable productEinheit = "Stück";
-    @observable productLagerort = undefined;
-    @observable productMHD = undefined;
-    @observable userModel = undefined;
+    @observable loginEmail = undefined; //Hilfsvariable Login
+    @observable loginPassword = undefined; //Hilfsvariable Login
+    @observable registerHousehold = undefined; //Hilfsvariable Registrierung
+    @observable registerEmail = undefined; //Hilfsvariable Registrierung
+    @observable registerPassword1 = undefined; //Hilfsvariable Registrierung
+    @observable registerPassword2 = undefined; //Hilfsvariable Registrierung
+    @observable registerOldPassword = undefined; //Hilfsvariable Passwort Ändern
+    @observable registerNewPassword1 = undefined; //Hilfsvariable Passwort Ändern
+    @observable registerNewPassword2 = undefined; //Hilfsvariable Passwort Ändern
+    @observable productName = undefined; //Hilfsvariable Produk anlegen/ändern
+    @observable productMenge = undefined; //Hilfsvariable Produk anlegen/ändern
+    @observable productEinheit = "Stück"; //Hilfsvariable Produk anlegen/ändern
+    @observable productLagerort = undefined; //Hilfsvariable Produk anlegen/ändern
+    @observable productMHD = undefined; //Hilfsvariable Produk anlegen/ändern
+    @observable userModel = undefined; //Hilfsvariable Produk anlegen/ändern
     
     constructor() {
         // this.initialize()
@@ -43,12 +40,14 @@ class MainStore {
 
     @action.bound
     resetAlerts() {
+        //Setzt Erfolgs- und Fehlermeldungen zurück
         this.errorMsg = '';
         this.successMsg = '';
     }
     
     @action.bound
     resetObservables() {
+        //Setzt Observables/Hilfsvariablen zurück
         this.loginEmail = undefined;
         this.loginPassword = undefined;
         this.registerHousehold = undefined;
@@ -67,6 +66,8 @@ class MainStore {
 
     @action.bound
     logIn() {
+        //Regelt den login
+
         this.resetAlerts();
         //console.log(this.isLoggedIn)
 
@@ -85,14 +86,16 @@ class MainStore {
         this.isLoggedIn = true;
         this.changeToHousehold();
     }
-
+    
     @action.bound
     logOut() {
         this.resetAlerts();
         this.resetObservables();
         this.isLoggedIn = false;
         this.changeToLogin();
-    }    
+    }  
+    
+    //Update Methoden für Zugriffe auf die Inhalte der Formulare (Textboxen und Dropdowns)
     @action.bound
     updateLoginEmail(value) {
         this.loginEmail = value
@@ -152,6 +155,7 @@ class MainStore {
         this.registerNewPassword2 = value
     }
 
+    //Methode  zum registrieren/Speichern eines neuen Nutzers
     @action.bound
     async saveUser() {
         this.resetAlerts();
@@ -194,10 +198,12 @@ class MainStore {
         //     return
         // }
 
+        //Erfolgsmeldung und Rückkehr zur Übersicht
         this.successMsg = 'Registrierung erfolgreich! Sie können sich nun anmelden.';
         this.changeCurrentSite('login', 'Anmeldung');
     }
 
+    //Methoden zur Änderung des Passwortes
     @action.bound
     savePassword() {
         this.resetAlerts();
@@ -221,6 +227,8 @@ class MainStore {
             return
         }
 
+
+        //Erfolgsmeldung und Rückkehr zur Übersicht
         this.successMsg = 'Passwort erfolgreich geändert.';
         this.changeCurrentSite('household', 'Übersicht');
     }
@@ -228,28 +236,41 @@ class MainStore {
     @action.bound
     deleteUser() {
         this.resetAlerts();
+
+
+        //Ausloggen, Erfolgsmeldung und Rückkehr zur Übersicht
         this.isLoggedIn = false;
+        this.successMsg = "Nutzer Erfolgreich gelöscht";
         this.changeCurrentSite('login', 'Anmeldung');
     }
 
+    //Produkt anlegen
     @action.bound
     saveProduct() {
+        this.resetAlerts();
         if(!this.productName || !this.productMenge || !this.productEinheit){
             this.errorMsg = "Bitte alle Pflichtfelder Ausfüllen";
             return
         }
 
-        this.resetAlerts();
+        //Erfolgsmeldung und Rückkehr zur Übersicht
         this.successMsg = 'Produkt erfolgreich angelegt';
         this.changeCurrentSite('household', 'Übersicht');
 
     }
 
+    //Produkt löschen
     @action.bound
     deleteProduct() {
+        //Produkt löschen
+        this.resetAlerts();
 
+        //Erfolgsmeldung und Rückkehr zur Übersicht
+        this.successMsg = 'Produkt erfolgreich gelöscht';
+        this.changeCurrentSite('household', 'Übersicht');
     }
 
+    //ChangeTo...() Methoden zum Seitenwechsel. Alle Erfolgs- und Fehlermeldungen werden zurück gesetzt
     @action.bound
     changeToRegister() {
         this.changeCurrentSite('register', 'Registrierung');
@@ -286,15 +307,15 @@ class MainStore {
         this.resetAlerts();
         this.changeCurrentSite('impressum', 'Impressum');
     }
-
-
+    //changeToStart() unterscheidet, ob eingeloggt oder nicht. 
+    //So kann die gleiche Methode sowohl in der Navigation vor dem Login, als auch der Navigation nach dem Login genutzt werden.
     @action.bound
     changeToStart() {
         this.isLoggedIn ? this.changeToHousehold() : this.changeToLogin();
         this.resetAlerts();
     }
 
-
+    //Die eigentliche Seitenwechsel-Methode, die von allen changeTo... Methoden aufgerufen wird
     @action.bound
     changeCurrentSite(sitename, headline) {
         this.currentSite = sitename;

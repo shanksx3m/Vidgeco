@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 
+//Einfaches Impressum ohne weitere Bearbeitungs-Algorythmen
 class Impressum extends React.Component {
     render() {
         return (
@@ -8,10 +9,25 @@ class Impressum extends React.Component {
                 <div className="Content" className="container">
                     <div className="row">
                         <div className="col-sm">
-                            <h1>Impressum</h1>
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                            <h2>Impressum</h2>
+                            <table className="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Eigentümer der Webseite</th>
+                                        <td>Hannes Vaupel</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">E-Mail</th>
+                                        <td>hvaupel6@gmail.com</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Adresse</th>
+                                        <td>Nur auf Anfrage per E-Mail</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                            
+
                     </div>
                 </div>
             </div>
