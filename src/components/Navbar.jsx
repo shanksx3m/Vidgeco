@@ -9,12 +9,13 @@ class Navbar extends React.Component {
     const { successMsg, errorMsg, isLoggedIn, logOut
       , changeToLogin, changeToRegister, currentSite, changeToStart
       , currentHeadline, changeToNewProduct, changeToHousehold
-      , changeToChangePassword, changeToDatenschutz, changeToImpressum, changeHousholdName} 
+      , changeToChangePassword, changeToDatenschutz, changeToImpressum, changeHousholdName,
+      deleteUser }
       = this.props.mainStore;
 
     return (
       <div>
-        
+
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <a className="navbar-brand" href="#" onClick={changeToStart}><div className="h4">VIDGECO</div></a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +40,9 @@ class Navbar extends React.Component {
                       <a className="nav-link" href="#" onClick={changeHousholdName}>Haushalt ändern</a>
                     </li>
                     <li className="nav-item">
+                      <a className="nav-link" href="#" data-toggle="modal" onClick={deleteUser}>Nutzer endgültig Löschen</a>
+                    </li>
+                    <li className="nav-item">
                       <a className="nav-link" href="#" onClick={changeToDatenschutz}>Datenschutz</a>
                     </li>
                     <li className="nav-item">
@@ -50,24 +54,24 @@ class Navbar extends React.Component {
                     </li>
                   </ul>
                 </div>
-              )  : (
-                  <div className="collapse navbar-collapse" id="navbarSupportedContent">
+              ) : (
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
                       <a className="nav-link" href="#" onClick={changeToLogin}>Login</a>
-                    </li>  
+                    </li>
                     <li className="nav-item">
                       <a className="nav-link" href="#" onClick={changeToDatenschutz}>Datenschutz</a>
                     </li>
                     <li className="nav-item">
                       <a className="nav-link" href="#" onClick={changeToImpressum}>Impressum</a>
-                    </li>                  
+                    </li>
                     <li className="nav-item">
                       <a className="nav-link" href="#" onClick={changeToRegister}>Registrieren</a>
                     </li>
                   </ul>
                 </div>
-                )
+              )
 
           }
         </nav>
@@ -94,6 +98,7 @@ class Navbar extends React.Component {
             </div>
           ) : ('')
         }
+
       </div>
     )
   }
