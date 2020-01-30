@@ -76,6 +76,7 @@ class MainStore {
 
             this.isLoggedIn = true;
             this.changeToHousehold();
+            this.resetObservables();
         } catch (error) {
             console.log(error)
 
@@ -251,6 +252,7 @@ class MainStore {
 
 
         //Ausloggen, Erfolgsmeldung und Rückkehr zur Übersicht
+        this.resetObservables();
         this.isLoggedIn = false;
         this.successMsg = "Nutzer Erfolgreich gelöscht";
         this.changeCurrentSite('login', 'Anmeldung');
