@@ -1,10 +1,10 @@
-// const mongoose = require('mongoose');
-import mongoose from "mongoose";
 import { observable, action } from 'mobx';
-import { userSchema } from '../models/userModel';
-import { productSchema } from "../models/productModel";
+import Axios from "axios";
+
+const serverUrl = "http://localhost:3001"
 
 class MainStore {
+    @observable userId = undefined;
     @observable isLoggedIn = false; //Hilfsvariable für Login
     @observable errorMsg = ''; //Hilfsvariable für Fehlermeldungen
     @observable successMsg = ''; //Hilfsvariable für Erfolgsmeldungen
@@ -25,18 +25,7 @@ class MainStore {
     @observable productEinheit = "Stück"; //Hilfsvariable Produk anlegen/ändern
     @observable productLagerort = undefined; //Hilfsvariable Produk anlegen/ändern
     @observable productMHD = undefined; //Hilfsvariable Produk anlegen/ändern
-    @observable userModel = undefined; //Hilfsvariable Produk anlegen/ändern
-    
-    constructor() {
-        // this.initialize()
-    }
 
-    @action.bound
-    async initialize() {
-        const connection = await mongoose.createConnection('mongodb+srv://vidgecoApp:wUm3yHfG4abT9pPL@vidgeco-pfqjo.mongodb.net/test?retryWrites=true&w=majority');
-        this.userModel = connection.model('UserModel', userSchema)
-        await this.userModel.ensureIndexes()
-    }
 
     @action.bound
     resetAlerts() {
@@ -44,7 +33,7 @@ class MainStore {
         this.errorMsg = '';
         this.successMsg = '';
     }
-    
+
     @action.bound
     resetObservables() {
         //Setzt Observables/Hilfsvariablen zurück
@@ -65,36 +54,54 @@ class MainStore {
     }
 
     @action.bound
-    logIn() {
+    async logIn() {
         //Regelt den login
 
         this.resetAlerts();
-        //console.log(this.isLoggedIn)
 
         //Prüfung ob Anmeldedaten leer
-        if(!this.loginEmail || !this.loginPassword){
+        if (!this.loginEmail || !this.loginPassword) {
             this.errorMsg = 'Bitte E-Mail und Passwort eingeben.'
             return
         }
 
-        //! Datenbankverbindung muss hergestellt und die Daten müssen   überprüft werden
-        //Prüfung der Anmeldedaten in der DB.
-        if(this.loginEmail !== 'hvaupel@gmail.com' && this.loginPassword !== 'test'){
-            this.errorMsg = 'E-Mail und Password passen nicht zusammen!'
+        //Übermitteln der Anmeldedaten an den Server.
+        try {
+            const res = await Axios.get(`${serverUrl}/login/${this.loginEmail}/${this.loginPassword}`)
+
+            this.userId = res.data.userId
+
+            this.isLoggedIn = true;
+            this.changeToHousehold();
+        } catch (error) {
+            console.log(error)
+
+            if (!error.response || !error.response.data) {
+                this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+                return
+            }
+
+            const errorMessage = error.response.data
+
+            if (errorMessage === 'No user registered with this email') {
+                this.errorMsg = 'Kein registrierter Nutzer mit dieser E-Mail gefunden!'
+            }
+
+            if (errorMessage === 'Wrong password') {
+                this.errorMsg = 'Falsches Passwort!'
+            }
             return
         }
-        this.isLoggedIn = true;
-        this.changeToHousehold();
     }
-    
+
     @action.bound
     logOut() {
         this.resetAlerts();
         this.resetObservables();
         this.isLoggedIn = false;
         this.changeToLogin();
-    }  
-    
+    }
+
     //Update Methoden für Zugriffe auf die Inhalte der Formulare (Textboxen und Dropdowns)
     @action.bound
     updateLoginEmail(value) {
@@ -125,7 +132,7 @@ class MainStore {
     updateRegisterProductName(value) {
         this.productName = value
     }
-    
+
     @action.bound
     updateRegisterProductMenge(value) {
         this.productMenge = value
@@ -145,7 +152,7 @@ class MainStore {
     @action.bound
     updateOldPassword(value) {
         this.registerOldPassword = value
-    }    
+    }
     @action.bound
     updateNewPassword1(value) {
         this.registerNewPassword1 = value
@@ -184,14 +191,12 @@ class MainStore {
         //     return
         // }
 
-        
+
         const newUser = {
             email: this.registerEmail,
             password: this.registerPassword1
         }
         console.log(newUser)
-
-        // const dbUser = await this.userModel.findOneAndUpdate({ email: newUser.email }, { $setOnInsert: newUser }, { upsert: true, new: true }).lean()
 
         // if (dbUser.password !== newUser.password) {
         //     this.errorMsg = 'Diese Email wird bereits für einen anderen Account verwendet.'
@@ -209,9 +214,9 @@ class MainStore {
         this.resetAlerts();
 
         //Prüfung ob alle Felder ausgefüllt sind
-        if (!this.registerNewPassword1 || !this.registerNewPassword2 || !this.registerOldPassword ) {
-            this.errorMsg = 'Bitte alle Felder ausfüllen.' +this.registerOldPassword 
-            + ' ' + this.registerNewPassword1 + ' ' + this.registerNewPassword2
+        if (!this.registerNewPassword1 || !this.registerNewPassword2 || !this.registerOldPassword) {
+            this.errorMsg = 'Bitte alle Felder ausfüllen.' + this.registerOldPassword
+                + ' ' + this.registerNewPassword1 + ' ' + this.registerNewPassword2
             return
         }
 
@@ -248,7 +253,7 @@ class MainStore {
     @action.bound
     saveProduct() {
         this.resetAlerts();
-        if(!this.productName || !this.productMenge || !this.productEinheit){
+        if (!this.productName || !this.productMenge || !this.productEinheit) {
             this.errorMsg = "Bitte alle Pflichtfelder Ausfüllen";
             return
         }
