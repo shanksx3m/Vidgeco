@@ -202,7 +202,7 @@ class MainStore {
         // }
 
         try {
-            await Axios.post(`http://localhost:3001/register`, {
+            await Axios.post(`${serverUrl}/register`, {
                 email: this.registerEmail,
                 password: this.registerPassword1,
                 householdName: this.registerHousehold
