@@ -8,16 +8,17 @@ import Octicon, { Trashcan, Pencil } from '@primer/octicons-react'; //Octicon is
 // Class, die das Layout eines Produktes exportiert
 class Product extends React.Component {
     render() {
+        const { _id, name, menge, mengeneinheit, lagerort, mhd, imgUrl } = this.props.product
         return (
             <div className='product-output'>
                 <div className="card">
                     <div className="card-body">
                         <h5 className="card-title">
-                            <img src={this.props.image} className="card-img" alt="" />
-                            {this.props.name}
+                            <img src={imgUrl} className="card-img" alt="" />
+                            {name}
                         </h5>
 
-                        <h6 className="card-subtitle mb-2 text-muted">{this.props.menge} im {this.props.lagerort}<br />Haltbar bis {this.props.mhd}</h6>
+                        <h6 className="card-subtitle mb-2 text-muted">{menge} {mengeneinheit} im {lagerort}<br />Haltbar bis {mhd}</h6>
                         <button className="card-link btn btn-dark"><Octicon icon={Pencil} /></button>
 
                         <button className="card-link btn btn-danger"><Octicon icon={Trashcan} /></button></div>

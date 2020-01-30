@@ -6,7 +6,7 @@ const productSchema = mongoose.Schema({
   menge: String,
   mengeneinheit: String,
   lagerort: String,
-  mhd: Date
+  mhd: String
 });
 
 const userSchema = mongoose.Schema({
