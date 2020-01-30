@@ -341,7 +341,7 @@ class MainStore {
 
     //Haushaltname ändern
     @action.bound
-    saveHouseholdName() {
+    async saveHouseholdName() {
         this.resetAlerts();
         if (!this.registerHousehold) {
             this.errorMsg = "Bitte neuen Namen angeben";
@@ -349,7 +349,7 @@ class MainStore {
         }
 
         try {
-            await Axios.post(`${serverUrl}/changePassword`, {
+            await Axios.post(`${serverUrl}/updateHousehold`, {
                 userId: this.userId,
                 householdName: this.registerHousehold
             })
