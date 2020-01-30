@@ -14,6 +14,8 @@ class MainStore {
     @observable currentSite = 'login';
     @observable currentHeadline = 'Anmeldung';
     @observable email = undefined;
+    @observable loginEmail = undefined;
+    @observable loginPassword = undefined;
     @observable registerHousehold = undefined;
     @observable registerEmail = undefined;
     @observable registerPassword1 = undefined;
@@ -44,27 +46,60 @@ class MainStore {
         this.errorMsg = '';
         this.successMsg = '';
     }
+    
+    @action.bound
+    resetObservables() {
+        this.loginEmail = undefined;
+        this.loginPassword = undefined;
+        this.registerHousehold = undefined;
+        this.registerEmail = undefined;
+        this.registerPassword1 = undefined;
+        this.registerPassword2 = undefined;
+        this.registerOldPassword = undefined;
+        this.registerNewPassword1 = undefined;
+        this.registerNewPassword2 = undefined;
+        this.productName = undefined;
+        this.productMenge = undefined;
+        this.productEinheit = "Stück";
+        this.productLagerort = undefined;
+        this.productMHD = undefined;
+    }
 
     @action.bound
     logIn() {
         this.resetAlerts();
         //console.log(this.isLoggedIn)
+
+        //Prüfung ob Anmeldedaten leer
+        if(!this.loginEmail || !this.loginPassword){
+            this.errorMsg = 'Bitte E-Mail und Passwort eingeben.'
+            return
+        }
+
+        //! Datenbankverbindung muss hergestellt und die Daten müssen   überprüft werden
+        //Prüfung der Anmeldedaten in der DB.
+        if(this.loginEmail !== 'hvaupel@gmail.com' && this.loginPassword !== 'test'){
+            this.errorMsg = 'E-Mail und Password passen nicht zusammen!'
+            return
+        }
         this.isLoggedIn = true;
-        this.isLoggedIn ?
-            (
-                this.resetAlerts()
-                , this.changeToHousehold()
-            ) :
-            (
-                this.errorMsg = 'E-Mail und Passwort stimmen nicht überein.'
-            )
+        this.changeToHousehold();
     }
 
     @action.bound
     logOut() {
         this.resetAlerts();
+        this.resetObservables();
         this.isLoggedIn = false;
         this.changeToLogin();
+    }    
+    @action.bound
+    updateLoginEmail(value) {
+        this.loginEmail = value
+    }
+    @action.bound
+    updateLoginPassword(value) {
+        this.loginPassword = value
     }
     @action.bound
     updateRegisterHousehold(value) {
