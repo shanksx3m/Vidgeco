@@ -7,14 +7,14 @@ import Octicon, { Trashcan, Pencil } from '@primer/octicons-react'; //Octicon is
 
 // Class, die das Layout eines Produktes exportiert
 class Product extends React.Component {
-    handleEditProductClick(_id){
-        const { changeToEditProduct, productID } = this.props.mainStore;
-        productID =_id;
-        changeToEditProduct() 
+    handleEditProductClick(_id) {
+        const { changeToEditProduct } = this.props.mainStore;
+        changeToEditProduct(_id)
     }
+
     render() {
         const { _id, name, menge, mengeneinheit, lagerort, mhd, imgUrl } = this.props.product;
-        const { deleteProduct, changeToEditProduct, productID } = this.props.mainStore;
+        const { deleteProduct } = this.props.mainStore;
         return (
             <div className='product-output'>
                 <div className="card">
@@ -25,9 +25,9 @@ class Product extends React.Component {
                         </h5>
 
                         <h6 className="card-subtitle mb-2 text-muted">{menge} {mengeneinheit} im {lagerort}<br />Haltbar bis {mhd}</h6>
-                        <button className="card-link btn btn-dark" onClick={() => handleEditProductClick(_id)}><Octicon icon={Pencil} /></button>
+                        <button className="card-link btn btn-dark" onClick={() => this.handleEditProductClick(_id)}><Octicon icon={Pencil} /></button>
                         <button className="card-link btn btn-danger" onClick={() => deleteProduct(_id)}><Octicon icon={Trashcan} /></button>
-                        </div>
+                    </div>
                 </div>
                 {/* <a className="btn btn-light" data-toggle="collapse" href={"#collapseProduct" + this.props.id} role="button" aria-expanded="false" aria-controls="collapseExample">
                   <div className="card mb-3" >
