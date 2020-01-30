@@ -8,6 +8,7 @@ import NewProduct from './components/NewProduct';
 import ChangePassword from './components/ChangePassword';
 import Datenschutz from './components/Datenschutz';
 import Impressum from './components/Impressum';
+import ChangeHousholdName from './components/ChangeHousholdName';
 
 
 
@@ -34,6 +35,12 @@ class App extends React.Component {
 
       case 'changePassword':
         return <ChangePassword />
+
+
+        case 'changeHousholdName':
+          return <ChangeHousholdName />
+
+        ChangeHousholdName
 
       case 'datenschutz':
         return <Datenschutz />

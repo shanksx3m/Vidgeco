@@ -31,6 +31,11 @@ class NewProduct extends React.Component {
         const { value } = document.getElementById("productLagerort")
         updateRegisterProductLagerort(value)
     }
+    onProductImgUrlInput() {
+        const { updateRegisterProductImgUrl } = this.props.mainStore;
+        const { value } = document.getElementById("productImgUrl")
+        updateRegisterProductImgUrl(value)
+    }
 
 
     render() {
@@ -64,6 +69,11 @@ class NewProduct extends React.Component {
                             <label for="productLagerort">Lagerort</label>
                             <input onChange={this.onProductLagerortInput.bind(this)} type="text" className="form-control" id="productLagerort" placeholder="z.B. Kühlschrank" />
                         </div>
+                        <div className="form-group">
+                            <label for="productImgUrl">Bild-Link</label>
+                            <input onChange={this.onProductImgUrlInput.bind(this)} type="text" className="form-control" id="productImgUrl" aria-describedby="imgUrlHelp" />
+                                <small id="imgUrlHelp" className="form-text text-muted">Wenn sie ein Bild angezeigt haben wollen, so geben Sie hier die URL an.</small>
+                            </div>
                         <div className="form-group">
                             <p><small>* Pflichtfeld</small></p>
                         </div>

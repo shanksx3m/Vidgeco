@@ -21,11 +21,12 @@ class MainStore {
     @observable registerOldPassword = undefined; //Hilfsvariable Passwort Ändern
     @observable registerNewPassword1 = undefined; //Hilfsvariable Passwort Ändern
     @observable registerNewPassword2 = undefined; //Hilfsvariable Passwort Ändern
-    @observable productName = undefined; //Hilfsvariable Produk anlegen/ändern
-    @observable productMenge = undefined; //Hilfsvariable Produk anlegen/ändern
-    @observable productEinheit = "Stück"; //Hilfsvariable Produk anlegen/ändern
-    @observable productLagerort = undefined; //Hilfsvariable Produk anlegen/ändern
-    @observable productMHD = undefined; //Hilfsvariable Produk anlegen/ändern
+    @observable productName = undefined; //Hilfsvariable Produkt anlegen/ändern
+    @observable productMenge = undefined; //Hilfsvariable Produkt anlegen/ändern
+    @observable productEinheit = "Stück"; //Hilfsvariable Produkt anlegen/ändern
+    @observable productLagerort = undefined; //Hilfsvariable Produkt anlegen/ändern
+    @observable productMHD = undefined; //Hilfsvariable Produkt anlegen/ändern
+    @observable productImgUrl = undefined; //Hilfsvariable Produkt anlegen/ändern
 
 
     @action.bound
@@ -52,6 +53,7 @@ class MainStore {
         this.productEinheit = "Stück";
         this.productLagerort = undefined;
         this.productMHD = undefined;
+        this.productImgUrl = undefined;
     }
 
     @action.bound
@@ -149,6 +151,10 @@ class MainStore {
     @action.bound
     updateRegisterProductLagerort(value) {
         this.productLagerort = value
+    }
+    @action.bound
+    updateRegisterProductImgUrl(value) {
+        this.productImgUrl = value
     }
     @action.bound
     updateOldPassword(value) {
@@ -265,6 +271,22 @@ class MainStore {
 
     }
 
+    //Haushaltname ändern
+    @action.bound
+    saveHouseholdName() {
+        this.resetAlerts();
+        if(!this.registerHousehold){
+            this.errorMsg = "Bitte neuen Namen angeben";
+            return
+        }
+        //TODO Haushalt ändern
+
+        //Erfolgsmeldung und Rückkehr zur Übersicht
+        this.successMsg = 'Name des Haushaltes erfolgreich geändert';
+        this.changeCurrentSite('household', 'Übersicht')
+
+    }
+
     //Produkt löschen
     @action.bound
     deleteProduct() {
@@ -313,6 +335,12 @@ class MainStore {
         this.resetAlerts();
         this.changeCurrentSite('impressum', 'Impressum');
     }
+    @action.bound
+    changeHousholdName() {
+        this.resetAlerts();
+        this.changeCurrentSite('changeHousholdName', 'Haushalt ändern');
+    }
+
     //changeToStart() unterscheidet, ob eingeloggt oder nicht. 
     //So kann die gleiche Methode sowohl in der Navigation vor dem Login, als auch der Navigation nach dem Login genutzt werden.
     @action.bound

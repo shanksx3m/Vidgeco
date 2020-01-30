@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-import Octicon, { Trashcan, Flame } from '@primer/octicons-react'; //Octicon ist eine Sammlung an Icons (https://octicons.github.com/)
+import Octicon, { Trashcan, Pencil } from '@primer/octicons-react'; //Octicon ist eine Sammlung an Icons (https://octicons.github.com/)
 
 @inject('mainStore')
 @observer
@@ -18,9 +18,9 @@ class Product extends React.Component {
                         </h5>
 
                         <h6 className="card-subtitle mb-2 text-muted">{this.props.menge} im {this.props.lagerort}<br />Haltbar bis {this.props.mhd}</h6>
-                        <button className="card-link btn btn-dark"><Octicon icon={Trashcan} /></button>
+                        <button className="card-link btn btn-dark"><Octicon icon={Pencil} /></button>
 
-                        <button className="card-link btn btn-danger"><Octicon icon={Flame} /></button></div>
+                        <button className="card-link btn btn-danger"><Octicon icon={Trashcan} /></button></div>
                 </div>
                 {/* <a className="btn btn-light" data-toggle="collapse" href={"#collapseProduct" + this.props.id} role="button" aria-expanded="false" aria-controls="collapseExample">
                   <div className="card mb-3" >

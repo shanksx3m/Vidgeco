@@ -9,7 +9,7 @@ class Navbar extends React.Component {
     const { successMsg, errorMsg, isLoggedIn, logOut
       , changeToLogin, changeToRegister, currentSite, changeToStart
       , currentHeadline, changeToNewProduct, changeToHousehold
-      , changeToChangePassword, changeToDatenschutz, changeToImpressum} 
+      , changeToChangePassword, changeToDatenschutz, changeToImpressum, changeHousholdName} 
       = this.props.mainStore;
 
     return (
@@ -34,6 +34,9 @@ class Navbar extends React.Component {
                     </li>
                     <li className="nav-item">
                       <a className="nav-link" href="#" onClick={changeToChangePassword}>Passwort ändern</a>
+                    </li>
+                    <li className="nav-item">
+                      <a className="nav-link" href="#" onClick={changeHousholdName}>Haushalt ändern</a>
                     </li>
                     <li className="nav-item">
                       <a className="nav-link" href="#" onClick={changeToDatenschutz}>Datenschutz</a>
