@@ -1,8 +1,8 @@
 import { observable, action } from 'mobx';
 import Axios from "axios";
 
-//const serverUrl = "http://localhost:3001"
-const serverUrl = "http://192.168.178.48:3001"
+const serverUrl = "http://localhost:3001"
+// const serverUrl = "http://192.168.178.48:3001"
 
 class MainStore {
     @observable userId = undefined;
@@ -79,21 +79,23 @@ class MainStore {
         } catch (error) {
             console.log(error)
 
-            if (!error.response || !error.response.data) {
-                this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
-                return
+            // Spezifische Error Nachrichten
+            if (error.response && error.response.data) {
+                const errorMessage = error.response.data
+
+                if (errorMessage === 'No user registered with this email') {
+                    this.errorMsg = 'Kein registrierter Nutzer mit dieser E-Mail gefunden!'
+                    return
+                }
+
+                if (errorMessage === 'Wrong password') {
+                    this.errorMsg = 'Falsches Passwort!'
+                    return
+                }
             }
 
-            const errorMessage = error.response.data
-
-            if (errorMessage === 'No user registered with this email') {
-                this.errorMsg = 'Kein registrierter Nutzer mit dieser E-Mail gefunden!'
-            }
-
-            if (errorMessage === 'Wrong password') {
-                this.errorMsg = 'Falsches Passwort!'
-            }
-            return
+            // Generische Error Nachricht
+            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
         }
     }
 
@@ -174,23 +176,23 @@ class MainStore {
     async saveUser() {
         this.resetAlerts();
 
-        // Prüfung ob Haushalt-Name, E-Mail und Passworfelder leer
-        if (!this.registerHousehold || !this.registerEmail || !this.registerPassword1 || !this.registerPassword2) {
-            this.errorMsg = 'Bitte alle Felder ausfüllen.'
-            return
-        }
+        // // Prüfung ob Haushalt-Name, E-Mail und Passworfelder leer
+        // if (!this.registerHousehold || !this.registerEmail || !this.registerPassword1 || !this.registerPassword2) {
+        //     this.errorMsg = 'Bitte alle Felder ausfüllen.'
+        //     return
+        // }
 
-        //Prüfung ob E-Mail korrekte Adresse ist
-        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.registerEmail)) {
-            this.errorMsg = 'Bitte korrekte E-Mail Adresse angeben.'
-            return
-        }
+        // //Prüfung ob E-Mail korrekte Adresse ist
+        // if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.registerEmail)) {
+        //     this.errorMsg = 'Bitte korrekte E-Mail Adresse angeben.'
+        //     return
+        // }
 
-        //Prüfung ob Passwörter übereinstimmen
-        if (this.registerPassword1 !== this.registerPassword2) {
-            this.errorMsg = 'Passwörter stimmen nicht überein.'
-            return
-        }
+        // //Prüfung ob Passwörter übereinstimmen
+        // if (this.registerPassword1 !== this.registerPassword2) {
+        //     this.errorMsg = 'Passwörter stimmen nicht überein.'
+        //     return
+        // }
 
         // Passwortlänge prüfen
         // if (this.registerPassword1) {
@@ -198,21 +200,44 @@ class MainStore {
         //     return
         // }
 
+        try {
+            const user = {
+                email: this.registerEmail || "asd",
+                password: this.registerPassword1 || "sdsd",
+                householdName: this.registerHousehold || "asd"
+            }
 
-        const newUser = {
-            email: this.registerEmail,
-            password: this.registerPassword1
+            console.log(user)
+
+            await Axios.post(`http://localhost:3001/register`, JSON.stringify(user), {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    'Content-Type': 'application/json'
+                }
+            })
+
+
+            //Erfolgsmeldung und Rückkehr zur Übersicht
+            this.successMsg = 'Registrierung erfolgreich! Sie können sich nun anmelden.';
+            this.changeCurrentSite('login', 'Anmeldung');
+        } catch (error) {
+            console.log(error)
+
+            // Spezifische Error Nachrichten
+            if (error.response && error.response.data) {
+                const errorMessage = error.response.data
+                console.log(errorMessage)
+
+                if (errorMessage === 'Email already in use') {
+                    this.errorMsg = 'Diese Email wird bereits für einen anderen Account verwendet.'
+                    return
+                }
+            }
+
+            // Generische Error Nachricht
+            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
         }
-        console.log(newUser)
 
-        // if (dbUser.password !== newUser.password) {
-        //     this.errorMsg = 'Diese Email wird bereits für einen anderen Account verwendet.'
-        //     return
-        // }
-
-        //Erfolgsmeldung und Rückkehr zur Übersicht
-        this.successMsg = 'Registrierung erfolgreich! Sie können sich nun anmelden.';
-        this.changeCurrentSite('login', 'Anmeldung');
     }
 
     //Methoden zur Änderung des Passwortes
@@ -275,7 +300,7 @@ class MainStore {
     @action.bound
     saveHouseholdName() {
         this.resetAlerts();
-        if(!this.registerHousehold){
+        if (!this.registerHousehold) {
             this.errorMsg = "Bitte neuen Namen angeben";
             return
         }

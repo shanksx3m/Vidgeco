@@ -1,21 +1,26 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const { userSchema } = require('./models')
 
 const app = express()
 const port = 3001
 let userModel
+mongoose.set('useFindAndModify', false);
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 app.get('/login/:email/:password', async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
+
+  if (!userModel) {
+    return res.status(503).end()
+  }
+
   try {
-    res.header("Access-Control-Allow-Origin", "*")
-
-    if (!userModel) {
-      return res.status(503).end()
-    }
-
     const { email, password } = req.params
     const user = await userModel.findOne({ email }).lean()
     console.log(user)
@@ -35,12 +40,40 @@ app.get('/login/:email/:password', async (req, res) => {
   }
 })
 
-app.post('/register', (req, res, next) => {
-  //! WORK IN PROGRESS
+app.post('/register', async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'POST')
+  res.header('x-frame-options', 'SAMEORIGIN')
 
-  const { email, password } = req.body
-  if (!email || !password) {
-    return res.status(400).send('Missing field')
+  if (!userModel) {
+    return res.status(503).end()
+  }
+
+  try {
+    if (!req.body) {
+      return res.status(400).end('Missing body')
+    }
+
+    const { email, password, householdName } = req.body
+    if (!email || !password || !householdName) {
+      console.log(req.body)
+      return res.status(400).send('Missing field in body')
+    }
+
+    // Überprüfung ob bereits ein user mit dieser Email in der DB existiert
+    const user = await userModel.findOne({ email }).lean()
+    if (user) {
+      return res.status(400).end('Email already in use')
+    }
+
+    // Füge einen neuen user hinzu, wenn noch keiner mit dieser Email existiert
+    const newUser = await userModel.findOneAndUpdate({ email }, { $setOnInsert: { email, password, householdName } }, { upsert: true, new: true }).lean()
+    console.log(newUser)
+
+    res.status(200).send(newUser)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).end()
   }
 })
 

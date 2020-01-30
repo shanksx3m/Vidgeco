@@ -60,7 +60,7 @@ class App extends React.Component {
       <div className="App">
         <Navbar />
         {
-          //Methode die den korrecten Inhalt rendert
+          //Methode die den korrekten Inhalt rendert
           this.renderCurrentSite()
         }
       </div>
