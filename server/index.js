@@ -110,6 +110,32 @@ app.post('/changePassword', async (req, res) => {
   }
 })
 
+app.post('/updateHousehold', async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
+
+  if (!userModel) {
+    return res.status(503).end()
+  }
+
+  try {
+    if (!req.body) {
+      return res.status(400).end('Missing body')
+    }
+
+    const { userId, householdName } = req.body
+    if (!userId || !householdName) {
+      return res.status(400).send('Missing field in body')
+    }
+
+    const updatedUser = await userModel.findOneAndUpdate({ _id: userId }, { householdName }, { new: true }).lean()
+
+    res.status(200).send(updatedUser)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).end()
+  }
+})
+
 app.post('/deleteUser', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
 
@@ -153,8 +179,8 @@ app.post('/createProduct', async (req, res) => {
       return res.status(400).send('Missing field in body')
     }
 
-    const { name, imgUrl, menge, mengeneinheit, lagerort, mhd } = product
-    if (!name || !imgUrl || !menge || !mengeneinheit || !lagerort || !mhd) {
+    const { name, menge, mengeneinheit } = product
+    if (!name || !menge || !mengeneinheit) {
       return res.status(400).send('Missing field in product')
     }
 

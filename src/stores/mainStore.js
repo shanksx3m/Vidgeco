@@ -74,8 +74,9 @@ class MainStore {
         try {
             const res = await Axios.get(`${serverUrl}/login/${this.loginEmail}/${this.loginPassword}`)
 
-            const { _id, householdName, products } = res.data
+            const { _id, email, householdName, products } = res.data
             this.userId = _id
+            this.email = email
             this.householdName = householdName
             this.products = products
 
@@ -238,7 +239,7 @@ class MainStore {
 
     //Methoden zur Änderung des Passwortes
     @action.bound
-    savePassword() {
+    async savePassword() {
         this.resetAlerts();
 
         //Prüfung ob alle Felder ausgefüllt sind
@@ -248,49 +249,94 @@ class MainStore {
             return
         }
 
-        //!Prüfung ob altes Passwort stimmt
-        if (this.registerOldPassword !== 'test') {
-            this.errorMsg = 'Ihr aktuelles Passwort ist falsch.'
-            return
-        }
-
         //Prüfung ob neue Passwörter gleich sind
         if (this.registerNewPassword1 !== this.registerNewPassword2) {
             this.errorMsg = 'Die neuen Passwörter stimmen nicht überein.'
             return
         }
 
+        try {
+            await Axios.post(`${serverUrl}/changePassword`, {
+                email: this.email,
+                password: this.registerOldPassword,
+                newPassword: this.registerNewPassword1
+            })
 
-        //Erfolgsmeldung und Rückkehr zur Übersicht
-        this.successMsg = 'Passwort erfolgreich geändert.';
-        this.changeCurrentSite('household', 'Übersicht');
+            //Erfolgsmeldung und Rückkehr zur Übersicht
+            this.successMsg = 'Passwort erfolgreich geändert.';
+            this.changeCurrentSite('household', 'Übersicht');
+        } catch (error) {
+            console.log(error)
+
+            // Spezifische Error Nachrichten
+            if (error.response && error.response.data) {
+                const errorMessage = error.response.data
+
+                if (errorMessage === 'Wrong password') {
+                    this.errorMsg = 'Falsches Passwort!'
+                    return
+                }
+            }
+
+            // Generische Error Nachricht
+            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+        }
     }
 
     @action.bound
-    deleteUser() {
+    async deleteUser() {
         this.resetAlerts();
 
+        try {
+            await Axios.post(`${serverUrl}/deleteUser`, {
+                userId: this.userId
+            })
 
-        //Ausloggen, Erfolgsmeldung und Rückkehr zur Übersicht
-        this.resetObservables();
-        this.isLoggedIn = false;
-        this.successMsg = "Nutzer Erfolgreich gelöscht";
-        this.changeCurrentSite('login', 'Anmeldung');
+            //Ausloggen, Erfolgsmeldung und Rückkehr zur Übersicht
+            this.resetObservables();
+            this.isLoggedIn = false;
+            this.successMsg = "Nutzer Erfolgreich gelöscht";
+            this.changeCurrentSite('login', 'Anmeldung');
+        } catch (error) {
+            console.log(error)
+
+            // Generische Error Nachricht
+            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+        }
     }
 
     //Produkt anlegen
     @action.bound
-    saveProduct() {
+    async saveProduct() {
         this.resetAlerts();
         if (!this.productName || !this.productMenge || !this.productEinheit) {
             this.errorMsg = "Bitte alle Pflichtfelder Ausfüllen";
             return
         }
 
-        //Erfolgsmeldung und Rückkehr zur Übersicht
-        this.successMsg = 'Produkt erfolgreich angelegt';
-        this.changeCurrentSite('household', 'Übersicht');
+        try {
+            const res = await Axios.post(`${serverUrl}/createProduct`, {
+                userId: this.userId,
+                product: {
+                    name: this.productName,
+                    imgUrl: this.productImgUrl,
+                    menge: this.productMenge,
+                    mengeneinheit: this.productEinheit,
+                    lagerort: this.productLagerort,
+                    mhd: this.productMHD,
+                }
+            })
 
+            //Erfolgsmeldung und Rückkehr zur Übersicht
+            this.products = res.data.products
+            this.successMsg = 'Produkt erfolgreich angelegt';
+            this.changeCurrentSite('household', 'Übersicht');
+        } catch (error) {
+            console.log(error)
+
+            // Generische Error Nachricht
+            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+        }
     }
 
     //Haushaltname ändern
@@ -301,12 +347,23 @@ class MainStore {
             this.errorMsg = "Bitte neuen Namen angeben";
             return
         }
-        //TODO Haushalt ändern
 
-        //Erfolgsmeldung und Rückkehr zur Übersicht
-        this.successMsg = 'Name des Haushaltes erfolgreich geändert';
-        this.changeCurrentSite('household', 'Übersicht')
+        try {
+            await Axios.post(`${serverUrl}/changePassword`, {
+                userId: this.userId,
+                householdName: this.registerHousehold
+            })
 
+            //Erfolgsmeldung und Rückkehr zur Übersicht
+            this.householdName = this.registerHousehold
+            this.successMsg = 'Name des Haushaltes erfolgreich geändert';
+            this.changeCurrentSite('household', 'Übersicht')
+        } catch (error) {
+            console.log(error)
+
+            // Generische Error Nachricht
+            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+        }
     }
 
     //Produkt löschen
