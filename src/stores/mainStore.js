@@ -23,6 +23,7 @@ class MainStore {
     @observable registerOldPassword = undefined; //Hilfsvariable Passwort Ändern
     @observable registerNewPassword1 = undefined; //Hilfsvariable Passwort Ändern
     @observable registerNewPassword2 = undefined; //Hilfsvariable Passwort Ändern
+    @observable productID = undefined; //Hilfsvariable Produkt anlegen/ändern
     @observable productName = undefined; //Hilfsvariable Produkt anlegen/ändern
     @observable productMenge = undefined; //Hilfsvariable Produkt anlegen/ändern
     @observable productEinheit = "Stück"; //Hilfsvariable Produkt anlegen/ändern
@@ -50,6 +51,7 @@ class MainStore {
         this.registerOldPassword = undefined;
         this.registerNewPassword1 = undefined;
         this.registerNewPassword2 = undefined;
+        this.productID = undefined;
         this.productName = undefined;
         this.productMenge = undefined;
         this.productEinheit = "Stück";
@@ -314,8 +316,10 @@ class MainStore {
             return
         }
 
+
         try {
-            const res = await Axios.post(`${serverUrl}/createProduct`, {
+            const endpoint = !this.productID ? "/createProduct" : "/updateProduct"
+            const res = await Axios.post(`${serverUrl}${endpoint}`, {
                 userId: this.userId,
                 product: {
                     name: this.productName,
@@ -329,7 +333,9 @@ class MainStore {
 
             //Erfolgsmeldung und Rückkehr zur Übersicht
             this.products = res.data.products
-            this.successMsg = 'Produkt erfolgreich angelegt';
+            
+            this.successMsg = 'Produkt erfolgreich '+ !this.productID ? "angelegt" : "geändert";
+            this.resetObservables();
             this.changeCurrentSite('household', 'Übersicht');
         } catch (error) {
             console.log(error)
@@ -400,6 +406,11 @@ class MainStore {
     @action.bound
     changeToNewProduct() {
         this.changeCurrentSite('newProduct', 'Neues Produkt');
+        this.resetAlerts();
+    }
+    @action.bound
+    changeToEditProduct() {
+        this.changeCurrentSite('editProduct', 'Produkt bearbeiten');
         this.resetAlerts();
     }
     @action.bound

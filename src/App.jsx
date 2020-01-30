@@ -33,14 +33,17 @@ class App extends React.Component {
       case 'newProduct':
         return <NewProduct />
 
+      case 'newProduct':
+          return <NewProduct />
+
+      case 'editProduct':
+              return <NewProduct />
+
       case 'changePassword':
         return <ChangePassword />
 
-
         case 'changeHousholdName':
           return <ChangeHousholdName />
-
-        ChangeHousholdName
 
       case 'datenschutz':
         return <Datenschutz />
