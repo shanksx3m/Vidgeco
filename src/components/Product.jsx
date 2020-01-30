@@ -20,7 +20,7 @@ class Product extends React.Component {
                 <div className="card">
                     <div className="card-body">
                         <h5 className="card-title">
-                            <img src={imgUrl} className="card-img" alt="" />
+                            <img src={imgUrl} className="card-img" alt=""/>
                             {name}
                         </h5>
 

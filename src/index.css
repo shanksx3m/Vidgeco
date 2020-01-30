@@ -23,3 +23,7 @@ code {
 .product-div{
   min-width: 223px;
 }
+.card-img{
+  height: 150px;
+  width: auto;
+}
