@@ -6,6 +6,8 @@ const serverUrl = "http://localhost:3001"
 
 class MainStore {
     @observable userId = undefined;
+    @observable householdName = undefined;
+    @observable products = undefined;
     @observable isLoggedIn = false; //Hilfsvariable für Login
     @observable errorMsg = ''; //Hilfsvariable für Fehlermeldungen
     @observable successMsg = ''; //Hilfsvariable für Erfolgsmeldungen
@@ -72,7 +74,10 @@ class MainStore {
         try {
             const res = await Axios.get(`${serverUrl}/login/${this.loginEmail}/${this.loginPassword}`)
 
-            this.userId = res.data.userId
+            const { _id, householdName, products } = res.data
+            this.userId = _id
+            this.householdName = householdName
+            this.products = products
 
             this.isLoggedIn = true;
             this.changeToHousehold();
