@@ -368,13 +368,26 @@ class MainStore {
 
     //Produkt löschen
     @action.bound
-    deleteProduct() {
+    async deleteProduct(productId) {
         //Produkt löschen
         this.resetAlerts();
 
-        //Erfolgsmeldung und Rückkehr zur Übersicht
-        this.successMsg = 'Produkt erfolgreich gelöscht';
-        this.changeCurrentSite('household', 'Übersicht');
+        try {
+            const res = await Axios.post(`${serverUrl}/deleteProduct`, {
+                userId: this.userId,
+                productId
+            })
+
+            //Erfolgsmeldung und Rückkehr zur Übersicht
+            this.products = res.data.products
+            this.successMsg = 'Produkt erfolgreich gelöscht';
+            this.changeCurrentSite('household', 'Übersicht');
+        } catch (error) {
+            console.log(error)
+
+            // Generische Error Nachricht
+            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+        }
     }
 
     //ChangeTo...() Methoden zum Seitenwechsel. Alle Erfolgs- und Fehlermeldungen werden zurück gesetzt
