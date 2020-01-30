@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import Product from './Product';
+import mainStore from '../stores/mainStore';
 
 @inject('mainStore')
 @observer
@@ -9,12 +10,14 @@ import Product from './Product';
 //Die Ausgabe erfolgt dir die Class 'Product' aus der Produkt.jsx
 class Household extends React.Component {
     render() {   
+        const { _id, householdName, products } = this.props.mainStore;
 
         return (
             <div className="Household">
                 <div className="Content" className="container">
                     {/* Name des Haushaltes */}
                     <p className="h1">Haushalt 1B</p>
+                    <p className="h1">{householdName}</p>
                     <p className="h4">
                     </p>
                     
