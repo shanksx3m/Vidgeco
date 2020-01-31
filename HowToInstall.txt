@@ -1,6 +1,7 @@
 Wie der webserver im locahost gestartet wird.
 
 1. node.js und npm installieren
-2. Im Projektordner (Vidgeco) über die Konsole "npm install" eingeben, um alle module zu installieren
+2. Im Projektordner (Vidgeco) über die Konsole "npm install" eingeben, um alle module zu installieren.
 3. Im Projektordner (Vidgeco) über die Konsole "npm run server" eingeben, um den Backend-Server zu starten.
-4. Neue Konsole öffnen. im Projektordner (Vidgeco) über die Konsole "npm start" eingeben, um den Frontend-Server zu starten.
+4. Neue Konsole öffnen. Im Projektordner (Vidgeco) über die Konsole "npm start" eingeben, um den Frontend-Server zu starten.
+5. Es sollte sich automatisch ein Browser Tab öffnen, ansonsten manuell auf "http://localhost:3000" gehen.
