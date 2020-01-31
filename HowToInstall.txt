@@ -1,3 +1,5 @@
+WebApp: Vidgeco; Autor: Hannes Vaupel; Matrikelnummer:1290217; Kurs: BIS-268 Mobile Computing, WiSe 2019/20, Merz;
+
 Wie der webserver im locahost gestartet wird.
 
 1. node.js und npm installieren
