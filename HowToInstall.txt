@@ -5,3 +5,5 @@ Wie der webserver im locahost gestartet wird.
 3. Im Projektordner (Vidgeco) über die Konsole "npm run server" eingeben, um den Backend-Server zu starten.
 4. Neue Konsole öffnen. Im Projektordner (Vidgeco) über die Konsole "npm start" eingeben, um den Frontend-Server zu starten.
 5. Es sollte sich automatisch ein Browser Tab öffnen, ansonsten manuell auf "http://localhost:3000" gehen.
+
+6. Um einen Server zu stoppen, "Strg" + "C" in der jeweiligen Konsole drücken.
