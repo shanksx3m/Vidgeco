@@ -24,6 +24,6 @@ code {
   min-width: 223px;
 }
 .card-img{
-  height: 150px;
-  width: auto;
+  width: 100%;
+  height: auto;
 }
