@@ -38,6 +38,14 @@ class MainStore {
         this.errorMsg = '';
         this.successMsg = '';
     }
+    @action.bound
+    showSuccessMsg(successMsg) {
+        this.successMsg = successMsg
+    }
+    @action.bound
+    showErrorMsg(errorMsg) {
+        this.errorMsg = errorMsg
+    }
 
     @action.bound
     resetObservables() {
@@ -68,7 +76,7 @@ class MainStore {
 
         //Prüfung ob Anmeldedaten leer
         if (!this.loginEmail || !this.loginPassword) {
-            this.errorMsg = 'Bitte E-Mail und Passwort eingeben.'
+            this.showErrorMsg('Bitte E-Mail und Passwort eingeben.')
             return
         }
 
@@ -93,18 +101,18 @@ class MainStore {
                 const errorMessage = error.response.data
 
                 if (errorMessage === 'No user registered with this email') {
-                    this.errorMsg = 'Kein registrierter Nutzer mit dieser E-Mail gefunden!'
+                    this.showErrorMsg('Kein registrierter Nutzer mit dieser E-Mail gefunden!')
                     return
                 }
 
                 if (errorMessage === 'Wrong password') {
-                    this.errorMsg = 'Falsches Passwort!'
+                    this.showErrorMsg('Falsches Passwort!')
                     return
                 }
             }
 
             // Generische Error Nachricht
-            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+            this.showErrorMsg('Server Error. Bitte versuche es später erneut.')
         }
     }
 
@@ -187,25 +195,25 @@ class MainStore {
 
         // Prüfung ob Haushalt-Name, E-Mail und Passworfelder leer
         if (!this.registerHousehold || !this.registerEmail || !this.registerPassword1 || !this.registerPassword2) {
-            this.errorMsg = 'Bitte alle Felder ausfüllen.'
+            this.showErrorMsg('Bitte alle Felder ausfüllen.')
             return
         }
 
         //Prüfung ob E-Mail korrekte Adresse ist. Die RegEx prüft die E-Mail auf Korrektheit.
         if (!/^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(this.registerEmail)) {
-            this.errorMsg = 'Bitte korrekte E-Mail Adresse angeben.'
+            this.showErrorMsg('Bitte korrekte E-Mail Adresse angeben.')
             return
         }
 
         //Prüfung ob Passwörter übereinstimmen
         if (this.registerPassword1 !== this.registerPassword2) {
-            this.errorMsg = 'Passwörter stimmen nicht überein.'
+            this.showErrorMsg('Passwörter stimmen nicht überein.')
             return
         }
 
         // Passwortlänge prüfen
         // if (this.registerPassword1) {
-        //     this.errorMsg = 'Das Passwort muss mindestens 5 Zeichen haben.'
+        //     this.showErrorMsg('Das Passwort muss mindestens 5 Zeichen haben.')
         //     return
         // }
 
@@ -217,7 +225,7 @@ class MainStore {
             })
 
             //Erfolgsmeldung und Rückkehr zur Übersicht
-            this.successMsg = 'Registrierung erfolgreich! Sie können sich nun anmelden.';
+            this.showSuccessMsg('Registrierung erfolgreich! Sie können sich nun anmelden.');
             this.changeCurrentSite('login', 'Anmeldung');
         } catch (error) {
             console.log(error)
@@ -228,13 +236,13 @@ class MainStore {
                 console.log(errorMessage)
 
                 if (errorMessage === 'Email already in use') {
-                    this.errorMsg = 'Diese Email wird bereits für einen anderen Account verwendet.'
+                    this.showErrorMsg('Diese Email wird bereits für einen anderen Account verwendet.')
                     return
                 }
             }
 
             // Generische Error Nachricht
-            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+            this.showErrorMsg('Server Error. Bitte versuche es später erneut.')
         }
 
     }
@@ -246,14 +254,13 @@ class MainStore {
 
         //Prüfung ob alle Felder ausgefüllt sind
         if (!this.registerNewPassword1 || !this.registerNewPassword2 || !this.registerOldPassword) {
-            this.errorMsg = 'Bitte alle Felder ausfüllen.' + this.registerOldPassword
-                + ' ' + this.registerNewPassword1 + ' ' + this.registerNewPassword2
+            this.showErrorMsg('Bitte alle Felder ausfüllen.')
             return
         }
 
         //Prüfung ob neue Passwörter gleich sind
         if (this.registerNewPassword1 !== this.registerNewPassword2) {
-            this.errorMsg = 'Die neuen Passwörter stimmen nicht überein.'
+            this.showErrorMsg('Die neuen Passwörter stimmen nicht überein.')
             return
         }
 
@@ -265,7 +272,7 @@ class MainStore {
             })
 
             //Erfolgsmeldung und Rückkehr zur Übersicht
-            this.successMsg = 'Passwort erfolgreich geändert.';
+            this.showSuccessMsg('Passwort erfolgreich geändert.');
             this.changeCurrentSite('household', 'Übersicht');
         } catch (error) {
             console.log(error)
@@ -275,13 +282,13 @@ class MainStore {
                 const errorMessage = error.response.data
 
                 if (errorMessage === 'Wrong password') {
-                    this.errorMsg = 'Falsches Passwort!'
+                    this.showErrorMsg('Falsches Passwort!')
                     return
                 }
             }
 
             // Generische Error Nachricht
-            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+            this.showErrorMsg('Server Error. Bitte versuche es später erneut.')
         }
     }
 
@@ -297,13 +304,13 @@ class MainStore {
             //Ausloggen, Erfolgsmeldung und Rückkehr zur Übersicht
             this.resetObservables();
             this.isLoggedIn = false;
-            this.successMsg = "Nutzer Erfolgreich gelöscht";
+            this.showSuccessMsg("Nutzer Erfolgreich gelöscht");
             this.changeCurrentSite('login', 'Anmeldung');
         } catch (error) {
             console.log(error)
 
             // Generische Error Nachricht
-            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+            this.showErrorMsg('Server Error. Bitte versuche es später erneut.')
         }
     }
 
@@ -312,7 +319,7 @@ class MainStore {
     async saveProduct() {
         this.resetAlerts();
         if (!this.productName || !this.productMenge || !this.productEinheit) {
-            this.errorMsg = "Bitte alle Pflichtfelder Ausfüllen";
+            this.showErrorMsg("Bitte alle Pflichtfelder Ausfüllen")
             return
         }
 
@@ -339,14 +346,14 @@ class MainStore {
             //Erfolgsmeldung und Rückkehr zur Übersicht
             this.products = res.data.products
 
-            this.successMsg = `Produkt erfolgreich ${!this.productID ? "angelegt" : "geändert"}`
+            this.showSuccessMsg(`Produkt erfolgreich ${!this.productID ? "angelegt" : "geändert"}`);
             this.resetObservables();
             this.changeCurrentSite('household', 'Übersicht');
         } catch (error) {
             console.log(error)
 
             // Generische Error Nachricht
-            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+            this.showErrorMsg('Server Error. Bitte versuche es später erneut.')
         }
     }
 
@@ -355,7 +362,7 @@ class MainStore {
     async saveHouseholdName() {
         this.resetAlerts();
         if (!this.registerHousehold) {
-            this.errorMsg = "Bitte neuen Namen angeben";
+            this.showErrorMsg("Bitte neuen Namen angeben")
             return
         }
 
@@ -367,13 +374,13 @@ class MainStore {
 
             //Erfolgsmeldung und Rückkehr zur Übersicht
             this.householdName = this.registerHousehold
-            this.successMsg = 'Name des Haushaltes erfolgreich geändert';
+            this.showSuccessMsg('Name des Haushaltes erfolgreich geändert');
             this.changeCurrentSite('household', 'Übersicht')
         } catch (error) {
             console.log(error)
 
             // Generische Error Nachricht
-            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+            this.showErrorMsg('Server Error. Bitte versuche es später erneut.')
         }
     }
 
@@ -391,13 +398,13 @@ class MainStore {
 
             //Erfolgsmeldung und Rückkehr zur Übersicht
             this.products = res.data.products
-            this.successMsg = 'Produkt erfolgreich gelöscht';
+            this.showSuccessMsg('Produkt erfolgreich gelöscht');
             this.changeCurrentSite('household', 'Übersicht');
         } catch (error) {
             console.log(error)
 
             // Generische Error Nachricht
-            this.errorMsg = 'Server Error. Bitte versuche es später erneut.'
+            this.showErrorMsg('Server Error. Bitte versuche es später erneut.')
         }
     }
 
@@ -413,6 +420,15 @@ class MainStore {
         this.resetObservables()
         this.changeCurrentSite('newProduct', 'Neues Produkt');
         this.resetAlerts();
+        // Kurzes Timeout, da die Elemente erst laden müssen 
+        setTimeout(() => {
+            document.getElementById("productName").value = ""
+            document.getElementById("productMenge").value = ""
+            document.getElementById("productEinheit").value = "Stück"
+            document.getElementById("productMHD").value = ""
+            document.getElementById("productLagerort").value = ""
+            document.getElementById("productImgUrl").value = ""
+        }, 10);
     }
     @action.bound
     changeToEditProduct(product) {

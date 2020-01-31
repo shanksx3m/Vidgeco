@@ -23,7 +23,7 @@ class Household extends React.Component {
                         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4">
                             {
                                 (products && products.length > 0 ?
-                                    products.map(product => (<div className="col product-div"><Product product={product} /></div>))
+                                    products.map(product => (<div key={product._id} className="col product-div"><Product product={product} /></div>))
                                     :
                                     <div style={{ opacity: 0.5 }}>Keine Produkte vorhanden</div>
                                 )

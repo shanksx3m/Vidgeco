@@ -81,18 +81,12 @@ class Navbar extends React.Component {
           (
             <div className="alert alert-success alert-dismissible fade show" role="alert">
               {successMsg}
-              <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
             </div>
           ) :
           errorMsg ?
             (
               <div className="alert alert alert-danger alert-dismissible fade show" role="alert">
                 {errorMsg}
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
               </div>
             ) : ''
         }
