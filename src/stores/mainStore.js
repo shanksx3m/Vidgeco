@@ -1,8 +1,14 @@
+//Autor: Hannes Vaupel; Matrikelnummer:1290217; Kurs: BIS-268 Mobile Computing, WiSe 2019/20, Merz;
+
 import { observable, action } from 'mobx';
 import Axios from "axios";
 
-const serverUrl = "http://localhost:3001"
+const serverUrl = "http://localhost:3001" // Server URL des Backend-Server greift auf server\index.js zu
 // const serverUrl = "http://192.168.178.48:3001"
+
+//Die Klasse MainStore beinhaltet den größten Teil der Frontend-Algorythmen
+// mit @observable wird eine variable erstellt, die über die Laufzeit bestehen bleibt
+// Auf Funktionen und Observables dieser Klasse kann im gesamten Fronend zugeriffen werden
 
 class MainStore {
     @observable userId = undefined;
@@ -291,7 +297,7 @@ class MainStore {
             this.showErrorMsg('Server Error. Bitte versuche es später erneut.')
         }
     }
-
+    //Methode zum Löschen des kompletten Nutzers
     @action.bound
     async deleteUser() {
         this.resetAlerts();

@@ -1,3 +1,4 @@
+//Autor: Hannes Vaupel; Matrikelnummer:1290217; Kurs: BIS-268 Mobile Computing, WiSe 2019/20, Merz;
 import React from 'react';
 
 //Einfaches Impressum ohne weitere Bearbeitungs-Algorythmen

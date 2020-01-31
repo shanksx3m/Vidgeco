@@ -1,10 +1,11 @@
+//Autor: Hannes Vaupel; Matrikelnummer:1290217; Kurs: BIS-268 Mobile Computing, WiSe 2019/20, Merz;
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 
 @inject('mainStore')
 @observer
 
-// Class/Seite zum ändern des Passwortes
+// Class/Seite zum ändern des Haushaltnamen
 class ChangeHousholdName extends React.Component {
 
     //onChange Methoden um die aktuelle Eingabe in Hilfsvariablen zu speichern.

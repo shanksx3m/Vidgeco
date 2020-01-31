@@ -1,10 +1,11 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 
+//Autor: Hannes Vaupel; Matrikelnummer:1290217; Kurs: BIS-268 Mobile Computing, WiSe 2019/20, Merz;
 @inject('mainStore')
 @observer
 
-// Class/Seite zum anlegen neuer Produkte
+// Class/Seite zum anlegen neuer Produkte oder zum ändern bestehender Produkte
 class NewProduct extends React.Component {
     onProductNameInput() {
         const { updateRegisterProductName } = this.props.mainStore;

@@ -1,3 +1,4 @@
+//Autor: Hannes Vaupel; Matrikelnummer:1290217; Kurs: BIS-268 Mobile Computing, WiSe 2019/20, Merz;
 import React from 'react'
 import { observer, inject } from "mobx-react"
 import Household from "./components/Household";
@@ -10,7 +11,8 @@ import Datenschutz from './components/Datenschutz';
 import Impressum from './components/Impressum';
 import ChangeHousholdName from './components/ChangeHousholdName';
 
-
+// Die App class steuert, welche Inhalte ausgegeben werden 
+// und greift auf die Komponenten im Ordner components zu und integriert diese
 @inject("mainStore")
 @observer
 class App extends React.Component {

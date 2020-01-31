@@ -1,3 +1,5 @@
+//Autor: Hannes Vaupel; Matrikelnummer:1290217; Kurs: BIS-268 Mobile Computing, WiSe 2019/20, Merz;
+//Die index.js umfasst alle Funktionen des Backend Servers
 const express = require('express')
 const cors = require('cors');
 const bodyParser = require('body-parser')
@@ -15,6 +17,7 @@ app.use(bodyParser.json())
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
+//get-Funktion die die Logindaten überprüft und bei Erfolg den User zurück gibt
 app.get('/login/:email/:password', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
 
@@ -41,6 +44,7 @@ app.get('/login/:email/:password', async (req, res) => {
   }
 })
 
+//post-Funktion die einen User Registriert und eine Meldung zurück gibt
 app.post('/register', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
 
@@ -74,6 +78,7 @@ app.post('/register', async (req, res) => {
   }
 })
 
+//post-Funktion die das Passwort ändert und den User erneut zurück gibt
 app.post('/changePassword', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
 
@@ -110,6 +115,7 @@ app.post('/changePassword', async (req, res) => {
   }
 })
 
+//post-Funktion die den Haushaltnamen ändert und den User erneut zurück gibt
 app.post('/updateHousehold', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
 
@@ -136,6 +142,7 @@ app.post('/updateHousehold', async (req, res) => {
   }
 })
 
+//post-Funktion die den Nutzer komplett löscht und einemeldung zurück gibt
 app.post('/deleteUser', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
 
@@ -162,6 +169,7 @@ app.post('/deleteUser', async (req, res) => {
   }
 })
 
+//post-Funktion die ein neues Produkt anlegt und den User erneut zurück gibt
 app.post('/createProduct', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
 
@@ -197,6 +205,7 @@ app.post('/createProduct', async (req, res) => {
   }
 })
 
+//post-Funktion die ein Produkt ändert und den User erneut zurück gibt
 app.post('/updateProduct', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
 
@@ -232,6 +241,7 @@ app.post('/updateProduct', async (req, res) => {
   }
 })
 
+//post-Funktion die das Produkt löscht und den User erneut zurück gibt
 app.post('/deleteProduct', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
 

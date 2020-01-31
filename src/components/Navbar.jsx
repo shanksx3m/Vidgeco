@@ -1,6 +1,8 @@
+//Autor: Hannes Vaupel; Matrikelnummer:1290217; Kurs: BIS-268 Mobile Computing, WiSe 2019/20, Merz;
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 
+// Class die die Navigationausgibt
 @inject('mainStore')
 @observer
 class Navbar extends React.Component {
@@ -19,7 +21,8 @@ class Navbar extends React.Component {
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
-          {
+          
+          {//Ab hier folgt die Logik, ob ein User angemeldet ist oder nicht und welche Navigatino die App ausgibt.
             isLoggedIn ?
               (
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -77,7 +80,8 @@ class Navbar extends React.Component {
             <li className="breadcrumb-item active" aria-current="page">{currentHeadline}</li>
           </ol>
         </nav>
-        {successMsg ?
+        {//Verarbeitung, ob eine Erfolgs-/Fehlermeldung angezeigt werden soll und Ausgabe der Meldung
+        successMsg ?
           (
             <div className="alert alert-success alert-dismissible fade show" role="alert">
               {successMsg}
