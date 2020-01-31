@@ -17,19 +17,19 @@ class ChangePassword extends React.Component {
         const { updateNewPassword1 } = this.props.mainStore;
         const { value } = document.getElementById("newPassword1");
         updateNewPassword1(value)
-    }    
+    }
     onNewPassword2Input() {
         const { updateNewPassword2 } = this.props.mainStore;
         const { value } = document.getElementById("newPassword2");
         updateNewPassword2(value)
     }
-    
+
     //Renderfunktion mit ausgabe des Contents
     render() {
 
         const { savePassword } = this.props.mainStore; //savePassword Methode aus der mainStore.jsx
         return (
-            <div className="ChangePassword">                
+            <div className="ChangePassword">
                 <div className="Content" className="container">
                     <div className="row">
                         <div className="col-sm"></div>
@@ -56,4 +56,5 @@ class ChangePassword extends React.Component {
 
     }
 }
+
 export default ChangePassword;

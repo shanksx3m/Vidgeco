@@ -1,17 +1,15 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-import { register } from '../serviceWorker';
 
 @inject('mainStore')
 @observer
 class Navbar extends React.Component {
   render() {
-    const { successMsg, errorMsg, isLoggedIn, logOut
-      , changeToLogin, changeToRegister, currentSite, changeToStart
-      , currentHeadline, changeToNewProduct, changeToHousehold
-      , changeToChangePassword, changeToDatenschutz, changeToImpressum, changeHousholdName,
-      deleteUser }
-      = this.props.mainStore;
+    const {
+      successMsg, errorMsg, isLoggedIn, logOut, changeToLogin, changeToRegister, changeToStart,
+      currentHeadline, changeToNewProduct, changeToHousehold, changeToChangePassword,
+      changeToDatenschutz, changeToImpressum, changeHousholdName, deleteUser
+    } = this.props.mainStore;
 
     return (
       <div>
@@ -27,7 +25,6 @@ class Navbar extends React.Component {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                      {/* <a className="nav-link" href="#" onClick={changeToHousehold}>Übersicht <span className="sr-only">(current)</span></a> */}
                       <a className="nav-link" href="#" onClick={changeToHousehold}>Übersicht</a>
                     </li>
                     <li className="nav-item">
@@ -80,7 +77,7 @@ class Navbar extends React.Component {
             <li className="breadcrumb-item active" aria-current="page">{currentHeadline}</li>
           </ol>
         </nav>
-        {successMsg != '' ?
+        {successMsg ?
           (
             <div className="alert alert-success alert-dismissible fade show" role="alert">
               {successMsg}
@@ -88,15 +85,16 @@ class Navbar extends React.Component {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-
-          ) : errorMsg != '' ? (
-            <div className="alert alert alert-danger alert-dismissible fade show" role="alert">
-              {errorMsg}
-              <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          ) : ('')
+          ) :
+          errorMsg ?
+            (
+              <div className="alert alert alert-danger alert-dismissible fade show" role="alert">
+                {errorMsg}
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            ) : ''
         }
 
       </div>

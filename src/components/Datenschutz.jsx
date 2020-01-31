@@ -1,5 +1,4 @@
 import React from 'react';
-import { observer, inject } from 'mobx-react';
 
 //Einfache Datenschutzerklärung (Beispieltext) ohne weitere Bearbeitungs-Algorythmen
 class Datenschutz extends React.Component {

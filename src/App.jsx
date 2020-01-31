@@ -11,7 +11,6 @@ import Impressum from './components/Impressum';
 import ChangeHousholdName from './components/ChangeHousholdName';
 
 
-
 @inject("mainStore")
 @observer
 class App extends React.Component {
@@ -34,16 +33,16 @@ class App extends React.Component {
         return <NewProduct />
 
       case 'newProduct':
-          return <NewProduct />
+        return <NewProduct />
 
       case 'editProduct':
-              return <NewProduct />
+        return <NewProduct />
 
       case 'changePassword':
         return <ChangePassword />
 
-        case 'changeHousholdName':
-          return <ChangeHousholdName />
+      case 'changeHousholdName':
+        return <ChangeHousholdName />
 
       case 'datenschutz':
         return <Datenschutz />
@@ -58,7 +57,7 @@ class App extends React.Component {
 
 
   render() {
-    return (      
+    return (
       //Folgendes wird gerendert: Immer die Navigation (Navbar) und zusätzlich der Content der Seite (renderCurrentSite())
       <div className="App">
         <Navbar />
@@ -70,5 +69,6 @@ class App extends React.Component {
     );
   }
 }
+
 //exportiert den Inhalt der Class App
 export default App

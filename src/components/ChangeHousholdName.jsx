@@ -27,7 +27,7 @@ class ChangeHousholdName extends React.Component {
 
                             <div className="form-group">
                                 <label forhtml="registerHousehold">Name Ihres Haushaltes ändern</label>
-                                <input onChange={this.onHouseholdInput.bind(this)} type="text" className="form-control" id="registerHousehold"/>
+                                <input onChange={this.onHouseholdInput.bind(this)} type="text" className="form-control" id="registerHousehold" />
                             </div>
                             <button type="submit" className="btn btn-primary" onClick={saveHouseholdName}>ändern</button>
                         </div>
@@ -39,4 +39,5 @@ class ChangeHousholdName extends React.Component {
 
     }
 }
+
 export default ChangeHousholdName;

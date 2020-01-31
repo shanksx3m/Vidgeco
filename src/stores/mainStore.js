@@ -410,7 +410,6 @@ class MainStore {
 
     @action.bound
     changeToNewProduct() {
-        // this.productID = undefined
         this.resetObservables()
         this.changeCurrentSite('newProduct', 'Neues Produkt');
         this.resetAlerts();

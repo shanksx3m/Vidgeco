@@ -1,5 +1,4 @@
 import React from 'react';
-import { observer, inject } from 'mobx-react';
 
 //Einfaches Impressum ohne weitere Bearbeitungs-Algorythmen
 class Impressum extends React.Component {

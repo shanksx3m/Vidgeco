@@ -58,7 +58,7 @@ class Register extends React.Component {
                                 <input onChange={this.onPassword2Input.bind(this)} type="password" className="form-control" id="registerPassword2" />
                             </div>
                             <div className="form-group">
-                            <p><small>* Pflichtfeld</small></p>
+                                <p><small>* Pflichtfeld</small></p>
                             </div>
                             <button type="submit" className="btn btn-primary" onClick={saveUser}>Registrieren</button>
                         </div>
@@ -70,4 +70,5 @@ class Register extends React.Component {
 
     }
 }
+
 export default Register;

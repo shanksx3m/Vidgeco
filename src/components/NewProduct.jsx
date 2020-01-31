@@ -48,15 +48,11 @@ class NewProduct extends React.Component {
                     <div className="col-sm">
                         <div className="form-group">
                             <label for="productName">Produktname *</label>
-                            <input onChange={this.onProductNameInput.bind(this)} type="text" className="form-control" id="productName" placeholder="z.B. Brokkoli"
-                            // value={loadProduct ? (loadProduct.name) : ('')}
-                            />
+                            <input onChange={this.onProductNameInput.bind(this)} type="text" className="form-control" id="productName" placeholder="z.B. Brokkoli" />
                         </div>
                         <div className="form-group">
                             <label for="productMenge">Menge *</label>
-                            <input onChange={this.onProductMengeInput.bind(this)} type="text" className="form-control" id="productMenge" placeholder="z.B. 15"
-                            // value={loadProduct ? (loadProduct.menge) : ('')}
-                            />
+                            <input onChange={this.onProductMengeInput.bind(this)} type="text" className="form-control" id="productMenge" placeholder="z.B. 15" />
                         </div>
                         <div className="form-group">
                             <label for="productEinheit">Mengeneinheit auswählen *</label>
@@ -68,21 +64,15 @@ class NewProduct extends React.Component {
                         </div>
                         <div className="form-group">
                             <label for="productMHD">Mindesthaltbarkeitsdatum</label>
-                            <input onChange={this.onProductMHDInput.bind(this)} type="text" className="form-control" id="productMHD" placeholder="z.B. 20.01.2020"
-                            // value={loadProduct ? (loadProduct.mhd) : ('')} 
-                            />
+                            <input onChange={this.onProductMHDInput.bind(this)} type="text" className="form-control" id="productMHD" placeholder="z.B. 20.01.2020" />
                         </div>
                         <div className="form-group">
                             <label for="productLagerort">Lagerort</label>
-                            <input onChange={this.onProductLagerortInput.bind(this)} type="text" className="form-control" id="productLagerort" placeholder="z.B. Kühlschrank"
-                            // value={loadProduct ? (loadProduct.lagerort) : ('')} 
-                            />
+                            <input onChange={this.onProductLagerortInput.bind(this)} type="text" className="form-control" id="productLagerort" placeholder="z.B. Kühlschrank" />
                         </div>
                         <div className="form-group">
                             <label for="productImgUrl">Bild-Link</label>
-                            <input onChange={this.onProductImgUrlInput.bind(this)} type="text" className="form-control" id="productImgUrl" aria-describedby="imgUrlHelp"
-                            // value={loadProduct ? (loadProduct.imgUrl) : ('')} 
-                            />
+                            <input onChange={this.onProductImgUrlInput.bind(this)} type="text" className="form-control" id="productImgUrl" aria-describedby="imgUrlHelp" />
                             <small id="imgUrlHelp" className="form-text text-muted">Wenn sie ein Bild angezeigt haben wollen, so geben Sie hier die URL an.</small>
                         </div>
                         <div className="form-group">
@@ -96,4 +86,5 @@ class NewProduct extends React.Component {
         )
     }
 }
+
 export default NewProduct;
