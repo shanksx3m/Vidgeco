@@ -214,8 +214,8 @@ app.post('/updateProduct', async (req, res) => {
       return res.status(400).send('Missing field in body')
     }
 
-    const { name, imgUrl, menge, mengeneinheit, lagerort, mhd } = product
-    if (!name || !imgUrl || !menge || !mengeneinheit || !lagerort || !mhd) {
+    const { name, menge, mengeneinheit } = product
+    if (!name || !menge || !mengeneinheit) {
       return res.status(400).send('Missing field in product')
     }
 

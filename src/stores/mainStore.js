@@ -339,7 +339,7 @@ class MainStore {
             //Erfolgsmeldung und Rückkehr zur Übersicht
             this.products = res.data.products
 
-            this.successMsg = 'Produkt erfolgreich ' + !this.productID ? "angelegt" : "geändert";
+            this.successMsg = `Produkt erfolgreich ${!this.productID ? "angelegt" : "geändert"}`
             this.resetObservables();
             this.changeCurrentSite('household', 'Übersicht');
         } catch (error) {
@@ -410,15 +410,33 @@ class MainStore {
 
     @action.bound
     changeToNewProduct() {
-        this.productID = undefined
+        // this.productID = undefined
+        this.resetObservables()
         this.changeCurrentSite('newProduct', 'Neues Produkt');
         this.resetAlerts();
     }
     @action.bound
-    changeToEditProduct(productId) {
-        this.productID = productId
+    changeToEditProduct(product) {
+        const { _id, name, imgUrl, menge, mengeneinheit, lagerort, mhd } = product
+        this.productID = _id
+        this.productName = name
+        this.productMenge = menge
+        this.productEinheit = mengeneinheit
+        this.productLagerort = lagerort
+        this.productMHD = mhd
+        this.productImgUrl = imgUrl
         this.changeCurrentSite('editProduct', 'Produkt bearbeiten');
         this.resetAlerts();
+
+        // Kurzes Timeout, da die Elemente erst laden müssen 
+        setTimeout(() => {
+            document.getElementById("productName").value = name
+            document.getElementById("productMenge").value = menge
+            document.getElementById("productEinheit").value = mengeneinheit
+            document.getElementById("productMHD").value = mhd || ""
+            document.getElementById("productLagerort").value = lagerort || ""
+            document.getElementById("productImgUrl").value = imgUrl || ""
+        }, 10);
     }
     @action.bound
     changeToHousehold() {

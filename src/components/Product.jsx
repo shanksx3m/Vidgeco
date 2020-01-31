@@ -7,46 +7,34 @@ import Octicon, { Trashcan, Pencil } from '@primer/octicons-react'; //Octicon is
 
 // Class, die das Layout eines Produktes exportiert
 class Product extends React.Component {
-    handleEditProductClick(_id) {
+    handleEditProductClick(product) {
         const { changeToEditProduct } = this.props.mainStore;
-        changeToEditProduct(_id)
+        changeToEditProduct(product)
     }
 
     render() {
         const { _id, name, menge, mengeneinheit, lagerort, mhd, imgUrl } = this.props.product;
         const { deleteProduct } = this.props.mainStore;
+
+        const mengeText = `${menge} ${mengeneinheit}`
+        const ortText = lagerort ? <span> im <b>{lagerort}</b></span> : ""
+        const mhdText = <b>{mhd || 'Keine Angabe'}</b>
+        const imgSrc = imgUrl || 'https://lh3.googleusercontent.com/proxy/cUAPGV4InGLw9JgljjtqbNUS8sgs3anOhfizsPlM6SymT4rCeIhQPxGEtlF2x6ZWjy0T6oIQ1IW5Vz7ZDVu-MXcfwEJCRO53bCeM_rka8eLw42owPFBqNPvK88OeXysieI3WgLg'
+
         return (
             <div className='product-output'>
                 <div className="card">
                     <div className="card-body">
                         <h5 className="card-title">
-                            <img src={imgUrl} className="card-img" alt=""/>
+                            <img src={imgSrc} className="card-img" alt="" />
                             {name}
                         </h5>
 
-                        <h6 className="card-subtitle mb-2 text-muted">{menge} {mengeneinheit} im {lagerort}<br />Haltbar bis {mhd}</h6>
-                        <button className="card-link btn btn-dark" onClick={() => this.handleEditProductClick(_id)}><Octicon icon={Pencil} /></button>
+                        <h6 className="card-subtitle mb-2 text-muted"><b>{mengeText}</b>{ortText}<br />Haltbar bis {mhdText}</h6>
+                        <button className="card-link btn btn-dark" onClick={() => this.handleEditProductClick(this.props.product)}><Octicon icon={Pencil} /></button>
                         <button className="card-link btn btn-danger" onClick={() => deleteProduct(_id)}><Octicon icon={Trashcan} /></button>
                     </div>
                 </div>
-                {/* <a className="btn btn-light" data-toggle="collapse" href={"#collapseProduct" + this.props.id} role="button" aria-expanded="false" aria-controls="collapseExample">
-                  <div className="card mb-3" >
-                      <div className="row no-gutters">
-                          <div className="col-md-4">
-                              <img src="https://www.zaubertopf-club.de/files/styles/mainimage_normal/public/images/recipes/2019/15/brokkoli_garen.jpg?itok=_wRGrDbN" className="card-img" alt="" />
-                          </div>
-                          <div className="col-md-8">
-                              <div className="card-body">
-                                  <h5 className="card-title">{this.props.name}</h5>
-                                  <div className="collapse" id={"collapseProduct" + this.props.id}>
-                                      <p className="card-text">{this.props.menge} im {this.props.lagerort}</p>
-                                      <p className="card-text"><small className="text-muted">Haltbar bis {this.props.mhd}</small></p>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </a> */}
             </div>
         );
     }
