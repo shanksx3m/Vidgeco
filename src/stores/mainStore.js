@@ -37,6 +37,7 @@ class MainStore {
     @observable productLagerort = undefined; //Hilfsvariable Produkt anlegen/ändern
     @observable productMHD = undefined; //Hilfsvariable Produkt anlegen/ändern
     @observable productImgUrl = undefined; //Hilfsvariable Produkt anlegen/ändern
+    @observable productSortBy = {kategorie: "Lagerort", sortierung: "asc"}; //Hilfsvariable zum sortieren von Produkten
 
 
     @action.bound
@@ -195,6 +196,16 @@ class MainStore {
         this.registerNewPassword2 = value
     }
 
+    @action.bound
+    updateProductSort(kategorie, sort) {
+        this.productSortBy=value;
+        this.sortProducts
+    }
+
+    @action.bound
+    sortProducts(){
+
+    }
     //Methode  zum registrieren/Speichern eines neuen Nutzers
     @action.bound
     async saveUser() {
